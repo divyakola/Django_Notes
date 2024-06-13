@@ -1,0 +1,200 @@
+	Django Form's
+	--------------
+Django provides Form's concept,easily writeing the forms instead of writeing the the html forms.
+
+in Django provides two types of forms,they are
+
+	1).Normal Form's
+
+	2).Model Form's
+
+we can create a django forms in the forms.py file of the application.
+
+if we want to implement the django normal forms,our class is extending by Form class of forms module.
+
+	from django import forms
+	class ourFormClassname(forms.Form):
+		--------
+		--------
+
+
+model form means our form is associated with our model.
+
+if we want to implement the django model forms,our class is extending by ModelForm class of forms module.
+
+	from django import forms
+	class ourFormClassname(forms.ModelForm):
+		--------
+		--------
+
+note:
+-----
+forms.py file is not a builtin module in our application,we need to create forms.py file/module manually in our application folder.
+
+EX1:
+----
+Create a django project with normal forms?
+
+step1:
+-----
+to create a django project
+
+D:\siva\django5pm@april2024>sivavenv\scripts\activate
+
+D:\siva\django5pm@april2024>()
+
+(sivavenv) D:\siva\django5pm@april2024>django-admin startproject proj21
+
+step2:
+-----
+goto project location and to create an application in our project location.
+
+(sivavenv) D:\siva\django5pm@april2024>cd proj21
+
+(sivavenv) D:\siva\django5pm@april2024\proj21>python manage.py startapp app21
+
+step3:
+-----
+to install our application in the settings.py file of the project
+
+	settings.py
+	-----------
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'app21'
+]
+
+step4:
+-----
+to create a django forms in the forms.py file of the application.
+
+	forms.py
+	--------
+from django import forms
+
+class EmployeeForm(forms.Form):
+    eid=forms.IntegerField(label="Enter Employee Id ",required=True)
+    ename=forms.CharField(label="Enter Employee Name ",max_length=30)
+    uname=forms.CharField(label="Enter User Name ",required=True)
+    pwd=forms.CharField(label="Enter Password ",min_length=8,max_length=15,
+                        required=True,widget=forms.PasswordInput)
+
+
+step5:
+-----
+to create a templates folder and to set the path for our templates in the settings.py file of the project
+
+	settings.py
+	----------
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [BASE_DIR/'templates'],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+
+step6:
+-----
+to create a views in the views.py file of the application.
+
+	views.py
+	--------
+from django.shortcuts import render
+from app21.forms import EmployeeForm
+from django.http import JsonResponse
+# Create your views here.
+def emp_input(request):
+    emp_form_obj=EmployeeForm()
+    return render(request,'emp_input.html',{'eform_obj':emp_form_obj})
+
+def emp_insertion(request):
+    emp_data={}
+    id=request.GET['eid']
+    name=request.GET['ename']
+    user_name=request.GET['uname']
+    password=request.GET['pwd']
+    emp_data={'employe_id':id,'employe_name':name,
+                  'employe_username':user_name,'employe_password':password}
+    return JsonResponse(emp_data)
+
+
+	emp_input.html
+	---------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form action="insert">
+        {{ eform_obj.as_p }}
+        <input type="submit" value="submit">
+    </form>
+</body>
+</html>
+
+step7:
+-----
+to configure the url patterns for our views in the urls.py file of the project.
+
+	urls.py
+	--------
+from django.contrib import admin
+from django.urls import path,re_path
+from app21 import views
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('in/',views.emp_input),
+    re_path('insert',views.emp_insertion)
+
+]
+
+step8:
+------
+to apply the migrations
+
+	python manage.py migrate
+
+step9:
+------
+to start the server
+
+	python manage.py runserver
+
+step10:
+------
+to send the request to the server
+
+	http://127.0.0.1:8000/in
+
+structure:
+-----------
+	proj21
+	   |---> app21
+	   |      |--->forms.py
+	   |      |--->views.py
+	   |--->proj21
+	   |      |--->settings.py
+	   |      |--->urls.py
+	   |--->templates
+	   |      |--->emp_input.html
+	   |--->manage.py
+
+

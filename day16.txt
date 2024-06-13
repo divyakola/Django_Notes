@@ -1,0 +1,243 @@
+Model Relationships:
+----------------------
+relation or relationship is any association between two entity types. 
+
+Django models relationship exists between two relational database tables in which one table has the foreign key of the primary key of the other table.
+
+we can maintain the relationships between the models,in 3-ways
+
+	1).One to One Model Relationship
+
+	2).One to Many or Many to One Model Relationship
+
+	3).Many to Many Model Relationship
+
+Data Integrity:
+---------------
+Data integrity refers to the accuracy of data in a database. 
+This is accomplished by including an optional on_delete parameter in the relational field, which can be set to any of the following values:
+
+on_delete = models.CASCADE : This is the default setting. It ensures that all the related records in the linked model are also deleted when the record in the model is deleted.
+
+on_delete = models.PROTECT : It ensures that the deletion of the record having relationships with other records is blocked.
+
+on_delete = models.SET_NULL : When a record is deleted, it assigns NULL to the relational field if null = True is set.
+
+on_delete = models.SET_DEFAULT : It provides default values to relational fields when a record is deleted and a default value has to be provided.
+
+on_delete = models.SET() : It can be used to take a default value as a parameter or a callable, the return value of which is assigned to the field.
+
+on_delete = models.DO_NOTHING : It does nothing. No action is taken.
+
+
+One to One Model Relationship:
+------------------------------
+one record of a particular model is related to exactly one record of another model. 
+This relation is defined by OneToOneField. 
+This type of relationship is used for security purposes.
+
+ex:
+---
+create django project with models and One to One Model Relationship?
+
+	models.py
+	---------
+from django.db import models
+
+# Create your models here.
+class Department(models.Model):
+    did=models.IntegerField(primary_key=True)
+    dname=models.CharField(max_length=30)
+    dloc=models.CharField(max_length=30)
+    def __str__(self):
+        return "%d %s %s"%(self.did,self.dname,self.dloc)
+
+
+class Student(models.Model):
+    sid=models.IntegerField(primary_key=True)
+    sname=models.CharField(max_length=30)
+    dept=models.OneToOneField(Department,on_delete=models.CASCADE)
+    def __str__(self):
+        return "%d %s %s"%(self.sid,self.sname,self.dept)
+
+
+(sivavenv) D:\siva\django5pm@april2024\proj19>python manage.py shell
+Python 3.12.3 
+>>> from app19.models import Department,Student
+>>> d1=Department(did=1,dname="cse",dloc="hyd")
+>>> d1.save()
+>>> d2=Department(did=2,dname="it",dloc="hyd")
+>>> d2.save()
+>>> d3=Department(did=3,dname="ece",dloc="hyd")
+>>> d3.save()
+>>> for rec in Department.objects.all():
+        print(rec)
+
+1 cse hyd
+2 it hyd
+3 ece hyd
+
+
+>>> s1=Student(sid=101,sname='siva',dept_id=1)
+>>> s1.save()
+>>> s2=Student(sid=102,sname='rama',dept_id=2)
+>>> s2.save()
+>>> s3=Student(sid=104,sname='krishna', dept_id=3)
+>>> s3.save()
+>>> for rec in Student.objects.all():
+        print(rec)
+
+101 siva 1 cse hyd
+102 rama 2 it hyd
+104 krishna 3 ece hyd
+
+
+>>> Department.objects.all().filter(did=1).delete()
+(2, {'app19.Student': 1, 'app19.Department': 1})
+
+>>> Student.objects.all().filter(sid=102).delete()
+(1, {'app19.Student': 1})
+
+
+>>> for rec in Department.objects.all():
+        print(rec)
+
+2 it hyd
+3 ece hyd
+
+>>> for rec in Student.objects.all():
+       print(rec)
+
+104 krishna 3 ece hyd
+
+
+ex:
+---
+	models.py
+	---------
+from django.db import models
+
+# Create your models here.
+class Department(models.Model):
+    did=models.IntegerField(primary_key=True)
+    dname=models.CharField(max_length=30)
+    dloc=models.CharField(max_length=30)
+    def __str__(self):
+        return "%d %s %s"%(self.did,self.dname,self.dloc)
+
+
+class Student(models.Model):
+    sid=models.IntegerField(primary_key=True)
+    sname=models.CharField(max_length=30)
+    dept=models.OneToOneField(Department,on_delete=models.SET_NULL,null=True)
+    def __str__(self):
+        return "%d %s %s"%(self.sid,self.sname,self.dept)
+
+
+(sivavenv) D:\siva\django5pm@april2024\proj19>python manage.py shell
+Python 3.12.3 
+>>> from app19.models import Department,Student
+>>> d1=Department(did=1,dname="cse",dloc="hyd")
+>>> d1.save()
+>>> d2=Department(did=2,dname="it",dloc="hyd")
+>>> d2.save()
+>>> d3=Department(did=3,dname="ece",dloc="hyd")
+>>> d3.save()
+>>> for rec in Department.objects.all():
+        print(rec)
+
+1 cse hyd
+2 it hyd
+3 ece hyd
+
+>>> s1=Student(sid=101,sname='siva',dept_id=1)
+>>> s1.save()
+>>> s2=Student(sid=102,sname='rama',dept_id=2)
+>>> s2.save()
+>>> s3=Student(sid=104,sname='krishna', dept_id=3)
+>>> s3.save()
+>>> for rec in Student.objects.all():
+        print(rec)
+
+101 siva 1 cse hyd
+102 rama 2 it hyd
+104 krishna 3 ece hyd
+
+>>> Department.objects.all().filter(did=1).delete()
+(1, {'app19.Department': 1})
+
+>>> for rec in Department.objects.all():
+        print(rec)
+
+2 it hyd
+3 ece hyd
+
+>>> for rec in Student.objects.all():
+        print(rec)
+
+101 siva None
+102 rama 2 it hyd
+104 krishna 3 ece hyd
+
+ex:
+---
+	models.py
+	--------
+from django.db import models
+
+# Create your models here.
+class Department(models.Model):
+    did=models.IntegerField(primary_key=True)
+    dname=models.CharField(max_length=30)
+    dloc=models.CharField(max_length=30)
+    def __str__(self):
+        return "%d %s %s"%(self.did,self.dname,self.dloc)
+
+
+class Student(models.Model):
+    sid=models.IntegerField(primary_key=True)
+    sname=models.CharField(max_length=30)
+    dept=models.OneToOneField(Department,on_delete=models.PROTECT,null=True)
+    def __str__(self):
+        return "%d %s %s"%(self.sid,self.sname,self.dept)
+
+
+(sivavenv) D:\siva\django5pm@april2024\proj19>python manage.py shell
+Python 3.12.3 
+>>> from app19.models import Department,Student
+>>> d1=Department(did=1,dname="cse",dloc="hyd")
+>>> d1.save()
+>>> d2=Department(did=2,dname="it",dloc="hyd")
+>>> d2.save()
+>>> d3=Department(did=3,dname="ece",dloc="hyd")
+>>> d3.save()
+
+>>> for rec in Department.objects.all():
+        print(rec)
+
+1 cse hyd
+2 it hyd
+3 ece hyd
+
+>>> s1=Student(sid=101,sname='siva',dept_id=1)
+>>> s1.save()
+>>> s2=Student(sid=102,sname='rama',dept_id=2)
+>>> s2.save()
+>>> s3=Student(sid=104,sname='krishna', dept_id=3)
+>>> s3.save()
+>>> for rec in Student.objects.all():
+        print(rec)
+
+101 siva 1 cse hyd
+102 rama 2 it hyd
+104 krishna 3 ece hyd
+
+>>> Department.objects.all().filter(did=1).delete()
+django.db.models.deletion.ProtectedError: ("Cannot delete some instances of model 'Department' because they are referenced through protected foreign keys: 'Student.dept'.",
+{<Student: 101 siva 1 cse hyd>})
+
+>>> Student.objects.all().filter(dept_id=1).delete()
+(1, {'app19.Student': 1})
+
+>>> Department.objects.all().filter(did=1).delete()
+(1, {'app19.Department': 1})

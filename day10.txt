@@ -1,0 +1,165 @@
+ex2:
+----
+create a django project with template tags and filters?
+
+step1:
+-----
+to create a django project
+
+D:\siva\django5pm@april2024>sivavenv\scripts\activate
+
+(sivavenv) D:\siva\django5pm@april2024>django-admin startproject proj12
+
+step2:
+-----
+goto project location and to create an application in our project location
+
+(sivavenv) D:\siva\django5pm@april2024>cd proj12
+
+(sivavenv) D:\siva\django5pm@april2024\proj12>python manage.py startapp app12
+
+step3:
+-----
+to install our application in the settings.py file of the project
+
+	settings.py
+	----------
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'app12'
+]
+
+step4:
+-----
+to create a templates folder and to set the path for our templates in the settings.py file of the project
+
+	settings.py
+	-----------
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [BASE_DIR/'templates'],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+step5:
+-----
+to create a views in the views.py file of the application
+
+	views.py
+	--------
+from django.shortcuts import render
+from datetime import datetime
+# Create your views here.
+def welcome(request):
+    cdt=datetime.now()
+    employees=[{'eid':101,'ename':'siva','eadd':'hyd'},
+               {'eid':102,'ename':'rama','eadd':'pune'},
+               {'eid':103,'ename':'krishna','eadd':'vizag'}]
+    context={'now':cdt,'employe':employees}
+    return render(request,'welcome.html',context)
+
+
+	welcome.html
+	------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>the current system date and time is: {{now}}</h1>
+    {# if tag example #}
+    {% if now.month >= 1 and now.month <= 3 %}
+        <p>currently we are in First Quarter</p>
+    {% elif now.month >= 4 and now.month <= 6 %}
+        <p>currently we are in Second Quarter</p>
+    {% elif now.month >= 7 and now.month <= 9 %}
+        <p>currently we are in Third Quarter</p>
+    {% else %}
+        <p>currently we are in Last Quarter</p>
+    {% endif %}
+    {% comment %}
+    to fetch the employe records one by one,
+    by using for loop
+    {% endcomment %}
+    {% for emp in employe %}
+        <p>{{emp}}</p>
+    {% endfor %}
+    <hr>
+    {% for emp in employe|dictsort:'ename' %}
+        <p>{{emp}}</p>
+    {% endfor %}
+    <hr>
+    {% for emp in employe|dictsortreversed:'ename' %}
+        <p>{{emp}}</p>
+    {% endfor %}
+    <hr>
+    {% for emp in employe|dictsort:'ename' %}
+        <p>{{emp[ename]}}</p>
+    {% endfor %}
+</body>
+</html>
+
+step6:
+-----
+to configure the url patterns for our views in the urls.py file of the project
+
+	urls.py
+	-------
+from django.contrib import admin
+from django.urls import path
+from app12 import views
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('wel/',views.welcome)
+]
+
+step7:
+------
+to apply the migrations
+
+	python manage.py migrate
+
+step8:
+-----
+to start the server
+
+	python manage.py runserver
+
+step9:
+-----
+to send the request to the server
+
+	http://127.0.0.1:8000/wel
+
+structure:
+---------
+	proj12
+	  |--->proj12
+	  |      |--->settings.py
+	  |      |--->urls.py
+	  |--->app12
+	  |      |--->views.py
+	  |--->templates
+	  |      |--->welcome.html
+	  |--->manage.py
+
+

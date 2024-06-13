@@ -1,0 +1,589 @@
+How to customizing django admin site:
+---------------------------------------
+	To customize the appearance of models in Django Admin site, we can create a new class "Adminclass" which is inherits from "admin.ModelAdmin" in admin.py file.
+
+ModelAdmin Attributes:
+-----------------------
+1.list_display:
+--------------
+It contains which model fields to display on the list page.
+
+It accepts a list (or) tuple of fieldnames which you want to display.
+	
+2.search_fields:
+----------------
+This attributes enables the search function on the list page.
+
+It accepts a list (or) tuple of fieldnames where you want to search.
+
+It performs a case-insensitive search.
+	
+3.ordering:
+----------
+It specifies how the list of objects should be ordered in the django admin site.
+
+It accepts a list (or) tuple of fieldnames to specify the order.
+
+	
+4.list_filter:
+--------------
+This attribute activate the filtering bar.
+
+It accepts a list(or) tuple of field names.
+
+Django provides automatically different shortcuts to filter the objects,based on the type of the field.
+
+
+Ex:- Field type		Shortcuts of filter the objects
+     -------------------------------------------------	
+     DateField		        Today,
+				Past 7 days,
+				This month,
+				This year
+
+    BooleanField		All
+				Yes
+				No
+
+
+5.date_hierarchy:
+-----------------
+This attribute is specially designed to provide an intelligent date based drill-down navigation just above Action select base.
+
+It accepts a string format not a list( or) tuple.
+
+ex:
+---
+	admin.py
+	-------
+from django.contrib import admin
+from .models import Student
+# Register your models here.
+class StudentAdmin(admin.ModelAdmin):
+    list_display=["sid","sname","sadd","sfee","sstatus","sdob"]
+    search_fields=["sadd","sfee","sname"]
+    ordering=["sfee"]
+    list_filter=["sadd","sstatus","sfee"]
+    date_hierarchy="sdob"
+
+admin.site.register(Student,StudentAdmin)
+
+
+
+working with static files?
+--------------------------
+static files means css,javascript and images.
+
+	we can working with static files,to configure the some settings in settings.py file of the project.
+
+	settings.py
+	-----------
+after static url
+
+STATICFILES_DIRS=[
+	BASE_DIR,'static',
+    ]
+
+how to loading the static files into templates?
+----------------------------------------------
+static files means css,javascript and images.
+
+	we can load the css files into templates,by using following syntax,
+
+	{% load static %}
+
+<link rel="stylesheet" href="{% static 'cssfilename.css' %}">
+
+
+	we can load the javascript files into templates,by using following syntax,
+
+	{% load static %}
+
+<script type="text/javascript" src="{% static 'javscriptfilename.js' %}>
+</script>
+
+	we can load the images into templates,by using following syntax,
+
+	{% load static %}
+<img src="{% static 'imagefilenamewithextension' %} />
+
+
+Managing Media Files in Django:
+--------------------------------
+In Django Media files are the files uploaded by users on the system. However, like static files, the media files shouldn't be trusted.
+
+There are always security concerns when dealing with user-uploaded content. Notably, it’s important to validate all uploaded files. 
+
+Django offers a large degree of flexibility to manage user uploads.
+
+Configuring Media Files in Django:
+----------------------------------
+Open settings.py file of your project and add the following configuration.
+
+# Base url to serve media files
+MEDIA_URL = '/media/'
+
+# Path where media is stored'
+MEDIA_ROOT = BASE_DIR /'media'
+
+
+MEDIA_URL is the URL that will serve the media files.
+MEDIA_ROOT is the path to the root directory where the files are getting stored.
+
+
+Serving Media Files in Development:
+----------------------------------
+By default, Django doesn't serve media files during development( when debug=True).
+
+In order to make the development server serve the media files open the urls.py of the project and make the below changes.
+
+	urls.py
+	--------
+from django.conf import settings
+from django.conf.urls.static import static
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    ...]
+
+if settings.DEBUG:
+
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)
+
+
+
+ex:
+----
+create a django project with static files and media files?
+
+step1:
+-----
+to create a django project
+
+D:\siva\django5pm@april2024>sivavenv\scripts\activate
+
+D:\siva\django5pm@april2024>()
+
+(sivavenv) D:\siva\django5pm@april2024>django-admin startproject proj24
+
+step2:
+-----
+goto project location and to create an application in our project location.
+
+(sivavenv) D:\siva\django5pm@april2024>cd proj24
+
+(sivavenv) D:\siva\django5pm@april2024\proj24>python manage.py startapp app24
+
+step3:
+-----
+to install our application in the settings.py file of the project.
+
+	settings.py
+	-----------
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'app24'
+]
+
+step4:
+-----
+to create a templates folder and to set the path for templates in the settings.py file of the project.
+
+	settings.py
+	-----------
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [BASE_DIR/'templates'],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+step5:
+-----
+to create a static folder and to set the path static files in the settings.py file of the project.
+
+	settings.py
+	----------
+STATIC_URL = 'static/'
+
+STATICFILES_DIRS=[
+    BASE_DIR/'static'
+]
+
+step6:
+------
+to create a media folder and to set the path for media files in the settings.py file of the project.
+
+	settings.py
+	-----------
+# Base url to serve media files
+MEDIA_URL = '/media/'
+
+# Path where media is stored'
+MEDIA_ROOT = BASE_DIR/'media'
+
+step7:
+-----
+to configure the media files settings in the urls.py file of the project
+
+	proj24/urls.py
+	---------------
+from django.contrib import admin
+from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+]
+
+if settings.DEBUG:
+
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)
+
+
+step8:
+-----
+to install the mysql server related django database API
+
+(sivavenv) D:\siva\django5pm@april2024\proj24>pip install mysqlclient
+
+step9:
+-----
+to create a database in mysql server
+
+mysql> create database proj24db;
+Query OK, 1 row affected (0.02 sec)
+
+step10:
+------
+to configure the mysql database settings in the settings.py file of the project.
+
+	settings.py
+	----------
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'proj24db',
+        'USER': 'root',
+        'PASSWORD': 'root',
+        'HOST': 'localhost',
+        'PORT': '3306'
+    }
+}
+
+note:
+----
+if we want to working with images, in that case we need to install pillow library
+
+step11:
+-------
+(sivavenv) D:\siva\django5pm@april2024\proj24>pip install pillow
+
+	
+step12:
+------
+to define a models in the models.py file of the application.
+
+
+	models.py
+	----------
+from django.db import models
+
+# Create your models here.
+class Products(models.Model):
+    pid=models.IntegerField(primary_key=True)
+    pname=models.CharField(max_length=30)
+    pqty=models.IntegerField()
+    pdesc=models.TextField()
+    pimg=models.ImageField()
+    def __str__(self):
+        return "%d %s %d %s %s"%(self.pid,self.pname,self.pqty,self.pdesc,self.pimg)
+
+step13:
+-----
+to check the errors in our model
+
+(sivavenv) D:\siva\django5pm@april2024\proj24>python manage.py check
+System check identified no issues (0 silenced).
+
+step14:
+------
+to create a models i.e., to apply the makemigrations
+
+(sivavenv) D:\siva\django5pm@april2024\proj24>python manage.py makemigrations
+Migrations for 'app24':
+  app24\migrations\0001_initial.py
+    - Create model Products
+
+step15:
+------
+to generate the tables in the specified database i.e., to apply the migrate
+
+(sivavenv) D:\siva\django5pm@april2024\proj24>python manage.py migrate
+
+step16:
+------
+to create a modelform in the forms.py file of the application
+
+	forms.py
+	--------
+from django import forms
+from .models import Products
+
+class ProductsForm(forms.ModelForm):
+    class Meta:
+        model=Products
+        fields="__all__"
+
+step17:
+------
+to create a views in the views.py file of the application
+
+	views.py
+	--------
+from django.shortcuts import render
+from .forms import ProductsForm
+from .models import Products
+# Create your views here.
+def product_insert(request):
+    context={}
+    if request.method=='POST':
+        form_obj=ProductsForm(request.POST or None,request.FILES or None)
+        if form_obj.is_valid():
+            form_obj.save()
+            return render(request,"insert_result.html")
+
+    else:
+        form_obj=ProductsForm()
+    context['form'] = form_obj
+    return render(request,'input.html',context)
+
+def display(request):
+    data=Products.objects.all()
+    return render(request,'display_result.html',{'records':data})
+
+	input.html
+	-----------
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{% static 'css/input.css' %}">
+
+
+</head>
+<body>
+    <fieldset>
+        <legend>Product Input Form</legend>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">upload</button>
+        </form>
+    </fieldset>
+</body>
+</html>
+
+	insert_result.html
+	------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>Inserted Successfully</h1>
+    <br><br>
+    <a href="show">Click Here to Display the Products</a>
+    <br><br>
+    <a href="insert">Click Here to Insert Another Product</a>
+</body>
+</html>
+
+	input.css
+	---------
+body{
+   background-image:url("input_bg.jpg");
+   background-repeat:no-repeat;
+   background-size:cover;
+}
+
+fieldset{
+   margin:50px;
+   color: blue;
+   font: 20px italic monospace;
+}
+
+form{
+  margin-left:100px;
+  color: red;
+  font: 20px bold arial;
+}
+
+button{
+    border:2px solid red;
+    margin-left:100px;
+    background-color: red;
+    color:yellow;
+    font: 20px bold forte;
+}
+
+	display_result.html
+	-------------------
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{% static 'css/display_result.css' %}">
+</head>
+<body>
+    <table>
+        <tr>
+            <th>Product_Id</th>
+            <th>Product_Name</th>
+            <th>Product_Quantity</th>
+            <th>Product_Description</th>
+            <th>Product_Image</th>
+        </tr>
+        {% for rec in records %}
+            <tr>
+                <td>{{ rec.pid }}</td>
+                <td>{{ rec.pname }}</td>
+                <td>{{ rec.pqty }}</td>
+                <td>{{ rec.pdesc }}</td>
+                <td><img src="{{ rec.pimg.url }}"></td>
+            </tr>
+        {% endfor %}
+    </table>
+<br>
+<a href="insert">
+    Click Here to Insert Another Product</a>
+
+
+</body>
+</html>
+
+	display_result.css
+	-------------------
+body{
+  background-image:url("display_resultbg.avif");
+  background-repeat:no-repeat;
+  background-size:cover;
+}
+
+img{
+   height:50px;
+   width:50px;
+   border:2px solid red;
+   border-radius:50%;
+
+}
+
+th{
+   background-color: yellow;
+   color:red;
+   font:20px bold arial;
+}
+
+td{
+    background-color: white;
+    color: blue;
+    font: 20px italic forte;
+}
+
+
+step18:
+-------
+to configure the url patterns for our views in the urls.py file of the applications
+
+	app24/urls.py
+	--------------
+from django.urls import path
+from .views import product_insert,display
+
+urlpatterns=[
+    path('insert',product_insert),
+    path('show',display)
+]
+
+	proj24/urls.py
+	-------------
+from django.contrib import admin
+from django.urls import path,include
+from django.conf import settings
+from django.conf.urls.static import static
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('app24/',include("app24.urls"))
+]
+
+if settings.DEBUG:
+
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)
+
+
+step19:
+------
+to start the server
+
+	python manage.py runserver
+
+step20:
+-------
+to send the request to the server
+
+	http://127.0.0.1:8000/app24/pinsert
+
+	http://127.0.0.1:8000/app24/show
+
+
+structure:
+----------
+	proj24
+	   |--->app24
+	   |      |--->models.py
+	   |      |--->forms.py
+	   |      |--->admin.py
+	   |      |--->views.py
+           |      |--->urls.py
+	   |--->proj24
+	   |      |--->settings.py
+	   |      |--->urls.py
+	   |--->templates
+	   |      |--->pinput.html
+	   |      |--->input_result.html
+	   |      |--->display_result.html
+	   |--->media
+           |--->static
+           |      |--->css
+	   |      |  |--->pinput.css
+	   |      |  |--->display_result.css
+	   |      |  |--->pinput_bg.jpeg
+	   |      |  |--->display_resultbg.jpeg
+           |--->manage.py
+
+

@@ -1,0 +1,149 @@
+ex1:
+----
+create a django project to implement the both function based views and class based views?
+
+step1:
+------
+to create a django project
+
+D:\siva\django5pm@april2024>sivavenv\scripts\activate
+
+(sivavenv) D:\siva\django5pm@april2024>django-admin startproject proj10
+
+step2:
+------
+goto project location and to create an application in our project
+
+(sivavenv) D:\siva\django5pm@april2024>cd proj10
+
+(sivavenv) D:\siva\django5pm@april2024\proj10>python manage.py startapp app10
+
+step3:
+-----
+to install our application in the settings.py file of the project.
+
+	settings.py
+	----------
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'app10'
+]
+
+step4:
+----
+to create a templates folder and to set the path for our templates in the settings.py file of the project.
+
+	settings.py
+	------------
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [BASE_DIR/'C:\\Users\\Lenovo\\Desktop\\templates'],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+step5:
+------
+to create a both function based views and class based views in the views.py file of the application.
+
+	views.py
+	--------
+from django.shortcuts import render
+from django.views.generic import View
+from time import ctime
+from django.http import JsonResponse
+
+# Create your views here.
+def welcome(request):
+    return render(request,'welcome.html')
+
+class CurrentTime(View):
+    def get(self,request):
+        x=ctime()        
+        context={'ct':x}
+        
+        return render(request,'ctime.html',context)
+
+def wishes(request):
+    y={'eid':101,'ename':'siva','esal':3000}
+    return JsonResponse(y)
+
+	welcome.html
+	-------------
+<!DOCTYPE html>
+<html>
+<head>
+    <title>function based view example</title>
+</head>
+<body>
+    <h1>hello world</h1>
+</body>
+</html>
+
+	ctime.html
+	----------
+<!DOCTYPE html>
+<html>
+<head>
+   <title>class based view example</title>
+</head>
+<body>
+   <h1>the current system time is: {{ct}}</h1>
+   <br><br>
+   {{res}}
+</body>
+</html>
+
+step6:
+-----
+to configure the url patterns for our views in the urls.py file of the project
+
+	urls.py
+	-------
+from django.contrib import admin
+from django.urls import path
+from app10.views import welcome,CurrentTime,wishes
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('wel/',welcome),
+    path('ct/',CurrentTime.as_view()),
+    path('',wishes)
+]
+
+step7:
+-----
+to apply the migrations
+
+	python manage.py migrate
+
+step8:
+-----
+to start the server
+
+	python manage.py runserver
+
+step9:
+-----
+to send the request to the server
+
+	http://127.0.0.1:8000/
+
+	http://127.0.0.1:8000/wel
+
+	http://127.0.0.1:8000/ct
+

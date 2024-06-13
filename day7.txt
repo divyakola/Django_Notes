@@ -1,0 +1,376 @@
+note:
+-----
+in function based views,if we want to implement the different http request methods by using conditional statements.
+
+Class Based Views:
+------------------
+whenever we are implementing the views by using python classes,that type of views are called Class Based Views.
+
+we can implement the any python class as a view in that case our class is extending by View class of generic module of views subpackage of django main package.
+
+in View class,each and every http request methods are seperately available.
+
+ex1:
+----
+create a django project with class based views to display the "hello world" message on the web browser?
+
+step1:
+-----
+to create a djago project
+
+D:\siva\django5pm@april2024>sivavenv\scripts\activate
+
+(sivavenv) D:\siva\django5pm@april2024>django-admin startproject proj8
+
+step2:
+-----
+goto project location and to create an application in our project.
+
+(sivavenv) D:\siva\django5pm@april2024>cd proj8
+
+(sivavenv) D:\siva\django5pm@april2024\proj8>python manage.py startapp app8
+
+step3:
+-----
+to install our application in the settings.py file of the project.
+
+	settings.py
+	-----------
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'app8'
+]
+
+step4:
+-----
+to create a templates folder and to set the path for our templates in the settings.py file of the project.
+
+	settings.py
+	-----------
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [BASE_DIR/'templates'],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+step5:
+-----
+to create a class based views in the views.py file of the application
+
+	views.py
+	--------
+from django.shortcuts import render
+from django.views.generic import View
+
+# Create your views here.
+class Welcome(View):
+    def get(self,request):
+        msg="hello world"
+        return render(request,'welcome.html',{'message':msg})
+
+	welcome.html
+	------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body bgcolor="cyan">
+    <h1 style="color:red;
+    background-color: yellow;text-align:center">
+    {{ message }}</h1>
+    
+</body>
+</html>
+
+step6:
+-----
+to configure the url patterns for our views in the urls.py file of the project.
+
+	urls.py
+	-------
+from django.contrib import admin
+from django.urls import path
+from app8.views import Welcome
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('wel/',Welcome.as_view())
+]
+
+step7:
+-----
+to apply the migrations
+
+	python manage.py migrate
+
+step8:
+-----
+to start the server
+
+	python manage.py runserver
+
+step9:
+------
+to send the request to the server
+
+	http://127.0.0.1:8000/wel
+
+structure:
+---------
+	proj8
+	  |--->app8
+	  |     |--->views.py
+	  |--->proj8
+	  |     |--->settings.py
+	  |     |--->urls.py
+	  |--->templates
+	  |     |--->welcome.html
+	  |--->manage.py
+
+ex:
+---
+create a django project to implement the class based views to perform the addition of two numbers by using both get() and post() methods?
+
+step1:
+-----
+to create a django project
+
+(sivavenv) D:\siva\django5pm@april2024>django-admin startproject proj9
+
+step2:
+-----
+goto project location and to create an application in our project location.
+
+(sivavenv) D:\siva\django5pm@april2024>cd proj9
+
+(sivavenv) D:\siva\django5pm@april2024\proj9>python manage.py startapp app9
+
+step3:
+-----
+to install our application in the settings.py file of the project.
+
+	settings.py
+	----------
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'app9'
+]
+
+step4:
+-----
+to create a templates folder and to set the path for our templates in the settings.py file of the project.
+
+	settings.py
+	-----------
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [BASE_DIR/'templates'],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+step5:
+-----
+to create a class based views in the views.py file of the application
+
+	views.py
+	--------
+from django.shortcuts import render
+from django.views.generic import View
+
+# Create your views here.
+
+class ginput(View):
+    def get(self,request):
+        return render(request,'ginput.html')
+    
+class pinput(View):
+    def get(self,request):
+        return render(request,'pinput.html')
+
+    
+class Addition(View):
+    def get(self,request):
+        x=int(request.GET['fn'])
+        y=int(request.GET['sn'])
+        z=x+y
+        context={'num1':x,'num2':y,'res':z}
+        return render(request,'goutput.html',context)
+    def post(self,request):
+        x=int(request.POST['fn'])
+        y=int(request.POST['sn'])
+        z=x+y
+        context={'num1':x,'num2':y,'res':z}
+        return render(request,'poutput.html',context)
+
+
+	ginput.html
+	-----------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body bgcolor="cyan">
+    <fieldset>
+        <legend>ginput form</legend>
+        <form action="sum">
+            Enter Your First Number:
+            <input type="text" name="fn"><br><br>
+            Enter Your Second Number:
+            <input type="text" name="sn"><br><br>
+            <input type="submit" value="add">
+        </form>
+    </fieldset>
+    
+</body>
+</html>
+
+	goutput.html
+	------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body bgcolor="pink">
+    <h1>by using get method</h1>
+    <h1>the sum of {{num1}} and {{num2}} is: {{res}}</h1>
+</body>
+</html>
+
+	pinput.html
+	-----------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body bgcolor="blue">
+    <fieldset>
+        <legend>pinput form</legend>
+        <form action="sum" method="post">
+            {% csrf_token %}
+            Enter Your First Number:
+            <input type="text" name="fn"><br><br>
+            Enter Your Second Number:
+            <input type="text" name="sn"><br><br>
+            <input type="submit" value="add">
+        </form>
+    </fieldset>
+    
+</body>
+</html>
+
+	poutput.html
+	------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body bgcolor="khaki">
+    <h1>by using post method</h1>
+    <h1>the sum of {{num1}} and {{num2}} is: {{res}}</h1>
+</body>
+</html>
+
+step6:
+----
+to configure url patterns for our views in the urls.py file of the project
+
+	urls.py
+	-------
+from django.contrib import admin
+from django.urls import path,re_path
+from app9.views import ginput,Addition,pinput
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('gin/',ginput.as_view()),
+    re_path('sum',Addition.as_view()),
+    path('pin/',pinput.as_view())
+
+]
+
+step7:
+----
+to apply the migrations
+
+	python manage.py migrate
+
+step8:
+------
+to start the server
+
+	python manage.py runserver
+
+step9:
+------
+to send the request to the server
+
+	http://127.0.0.1:8000/gin
+	http://127.0.0.1:8000/pin
+
+structure:
+---------
+	proj9
+	  |--->app9
+	  |     |--->views.py
+	  |--->proj9
+	  |     |--->settings.py
+	  |     |--->urls.py
+	  |--->templates
+	  |     |--->ginput.html
+          |     |--->goutput.html
+          |     |--->pinput.html
+          |     |--->poutput.html
+	  |--->manage.py
+
+assignment:
+----------
+create a django project to implement the Simple Intrest Calculator by using clss based views?
+
+
+
+

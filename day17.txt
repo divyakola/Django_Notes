@@ -1,0 +1,165 @@
+Many-to-One Relationships:
+----------------------------
+In this type of relationship, one record of the first model is related to multiple records of the second model but one record of the second model is related to only one record of the first model. 
+
+This relation is defined by ForeignKey field type.
+
+ex:
+---
+	models.py
+	---------
+from django.db import models
+
+# Create your models here.
+class Owner(models.Model):
+    oid=models.IntegerField(primary_key=True)
+    oname=models.CharField(max_length=30)
+    oadd=models.CharField(max_length=30)
+    def __str__(self):
+        return "%d %s %s"%(self.oid,self.oname,self.oadd)
+
+class Car(models.Model):
+    reg_num=models.IntegerField(primary_key=True)
+    cmodel=models.CharField(max_length=30)
+    engine_type=models.CharField(max_length=30)
+    cown=models.ForeignKey(Owner,on_delete=models.CASCADE)
+    def __str__(self):
+        return "%d %s %s %S"%(self.reg_num,self.cmodel,self.engine_type,self.cown)
+
+
+(sivavenv) D:\siva\django5pm@april2024\proj19>python manage.py shell
+Python 3.12.3 
+>>> from app19.models import Owner,Car
+
+>>> o1=Owner(oid=345245,oname="siva",oadd="ameerpet")
+>>> o1.save()
+
+>>> o2=Owner(oid=345246,oname="rama",oadd="sr nagar")
+>>> o2.save()
+
+>>> o3=Owner(oid=345247,oname="krishna",oadd="kphb")
+>>> o3.save()
+
+>>> for rec in Owner.objects.all():
+        print(rec)
+
+345245 siva ameerpet
+345246 rama sr nagar
+345247 krishna kphb
+
+>>> c1=Car(reg_num=234,cmodel='i20',engine_type="petrol",cown=o1)
+>>> c1.save()
+
+>>> c2=Car(reg_num=235,cmodel='celtos',engine_type="disel",cown=o2)
+>>> c2.save()
+
+>>> c3=Car(reg_num=236,cmodel='i10',engine_type="petrol",cown=o3)
+>>> c3.save()
+
+>>> c4=Car(reg_num=237,cmodel='thar',engine_type="disel",cown=o1)
+>>> c4.save()
+
+>>> for rec in Car.objects.all():
+        print(rec)
+
+234 i20 petrol 345245 siva ameerpet
+235 celtos disel 345246 rama sr nagar
+236 i10 petrol 345247 krishna kphb
+237 thar disel 345245 siva ameerpet
+
+
+Many-to-Many model Relationships:
+--------------------------------
+In this type of relationship, each record of the first model is related to many records of the second model and also each record of the second model is related to many records of the first model. 
+
+This relationship is defined by ManyToManyField
+
+
+ex:
+---
+	models.py
+	----------
+from django.db import models
+
+# Create your models here.
+class Customer(models.Model):
+    cid=models.IntegerField(primary_key=True)
+    cname=models.CharField(max_length=30)
+    cadd=models.CharField(max_length=30)
+    def __str__(self):
+        return "%d %s %s"%(self.cid,self.cname,self.cadd)
+
+class Product(models.Model):
+    prod_id=models.IntegerField(primary_key=True)
+    prod_name=models.CharField(max_length=30)
+    cust=models.ManyToManyField(Customer)
+    def __str__(self):
+        return "%d %s "%(self.prod_id,self.prod_name)
+
+
+>>> from app20.models import Customer,Product
+
+>>> c1=Customer(cid=101,cname='siva',cadd='ameerpet')
+>>> c1.save()
+
+>>> c2=Customer(cid=102,cname='rama',cadd='miyapur')
+>>> c2.save()
+
+>>> c3=Customer(cid=103,cname='krishna',cadd='kphb')
+>>> c3.save()
+
+>>> for rec in Customer.objects.all():
+        print(rec)
+
+101 siva ameerpet
+102 rama miyapur
+103 krishna kphb
+
+>>> p1=Product(prod_id=1,prod_name="computer")
+>>> p1.save()
+
+>>> p2=Product(prod_id=12,prod_name="mobile")
+>>> p2.save()
+
+>>> p3=Product(prod_id=133,prod_name="pen")
+>>> p3.save()
+
+>>> for rec in Product.objects.all():
+        print(rec)
+ 
+1 computer
+12 mobile
+133 pen
+
+
+>>> p1.cust.add(c1)
+>>> p1.save()
+>>> p2.cust.add(c2,c3)
+>>> p2.save()
+>>> p3.cust.add(c1,c3)
+>>> p3.save()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

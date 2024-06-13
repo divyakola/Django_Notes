@@ -1,0 +1,648 @@
+templates
+---------
+	a template is a html file ,in which we can include python code by using some template languages.
+
+template language?
+-----------------
+	a template language is a special language,it will provides html code reusability.
+
+	Django Template Language(DTL) i.e. Djnago,it is by default
+
+	Jinja2 is a one template language
+
+template variable?
+-----------------
+	any text which is sourounded by double curly braces is known as a template variable.
+
+	{{ variable }}
+
+template tag?
+-----------
+	any block/text which is sourounded by single curly-brace and percentile,that text is called template tag.
+
+	{% tag %}
+
+ex:
+---
+if tag:
+-----
+{% if condition %}
+    <p>....</p>
+{% endif %}
+
+if else tag
+-----------
+{% if condition %}
+    <p>....</p>
+{% else %}
+    <p>....</p>
+{% endif %}
+
+
+if elif else
+------------
+{% if condition %}
+    <p>.....</p>
+{% elif condition %}
+    <p>....</p>
+{% else %}
+    <p>....</p>
+{% endif %}
+
+elif ladder
+-----------
+{% if condition %}
+    <p>.....</p>
+{% elif condition %}
+    <p>....</p>
+{% elif condition %}
+    <p>....</p>
+{% elif condition %}
+    <p>....</p>
+{% elif condition %}
+    <p>....</p>
+{% else %}
+    <p>....</p>
+{% endif %}
+
+nested if
+----------
+{% if condition %}
+    <p>------</p>
+    {% if condition %}
+         <p>-----</p>
+    {% endif %}
+{% endif %}
+
+for block
+---------
+{% for variable in iterableobj %}
+	<p>.....</p>
+{% endfor %}
+
+single line comment
+-------------------
+{# comment line #}
+
+
+multi-line comment
+------------------
+{% comment %}
+   <p>....</p>
+   <p>....</p>
+{% endcomment %}
+
+csrf token tag
+--------------
+{% csrf_token %}
+
+extends tag
+----------
+{% extends htmlfilename %}
+
+include tag
+-------------
+{% include htmlfilename %}
+
+block content tag
+-----------------
+{% block content %}
+	<p>......</p>
+{% endblock %}
+
+load tag
+--------
+{% load static %}
+
+template filters:
+----------------
+	the template filters are used to modify the template variables data before they are renderd as html code.
+
+we can use the filters by using following syntax,
+
+	{{ varaiblename|filtername}}
+
+the template filter's are:
+
+capfirst
+--------
+to return the first word first charecter in upper case/capitalcase.
+
+	x="hai krishna good morning"
+
+	{{ x|capfirst}}
+
+	o/p: "Hai krishna good morning"
+
+
+lower
+----
+	to return the string in lower case
+
+	x="RAMA"
+
+	{{ x|lower }}
+	
+	o/p: "rama"
+
+upper
+-----
+	to return the string in upper case
+
+	y="siva"
+
+	{{ y|upper }}
+
+	o/p: "SIVA"
+
+length
+------
+	to return the no.of charecters/elements in a given object
+
+	z="siva krishna"
+
+	{{ z|length }}
+
+	o/p: 12
+
+title
+-----
+	to return each and every word first charecter in capital-case.
+
+	a="hello rama krishna"
+
+	{{ a|title }}
+
+	o/p: "Hello Rama Krishna"
+
+truncatewords
+------------
+	to truncate the string upto specified no.of words.
+
+	{{ variable|truncatewords:"no.of.words"}}
+
+	x="hello welcome to python world"
+
+	{{ x|truncatewords:"2" }}
+
+	o/p: "hello welcome ..."
+
+
+truncatechars
+-------------
+	to truncate the string upto specified no.of charecters.
+
+	here elipses also counted.
+
+	x="hello siva welcome to python world"
+
+	{{ x|trucatechars:"10" }}
+
+		"hello siv..."
+
+
+add
+----
+
+	Adds the argument to the value.
+
+	{{ value|add:"2" }}
+
+	If value is 4, then the output will be 6.
+
+addslashes
+-----------
+	Adds slashes before quotes.
+
+	x="I'm using Django"
+	{{ x|addslashes }}
+
+		 "I\'m using Django".
+
+
+center
+-------
+	Centers the value in a field of a given width.
+	
+	x="siva"
+
+	{{ x|center:"9" }}
+
+		"   siva  "
+
+ljust
+------
+Left-aligns the value in a field of a given width.
+
+	x="siva"
+
+	{{ x|ljust:"9" }}
+
+		"siva     "
+
+rjust
+------
+Right-aligns the value in a field of a given width.
+
+	x="siva"
+
+	{{ x|rjust:"9" }}
+
+		"     siva"
+
+cut
+----
+	Removes all values of arg from the given string.
+
+	x="hai siva krishna"
+
+	{{ x|cut:" " }}
+
+		"haisivakrishna"
+
+date
+-----
+Formates a date according to the given format.
+
+d	---> Day of the month, 2 digits with leading zeros.
+				
+			'01' to '31'
+
+D	---> Day of the week, textual, 3 letters.	
+
+		        'Mon'  to 'Sun'
+
+l	---> Day of the week, textual, long.	
+		
+                        'Monday' to 'Sunday'
+
+m	---> Month, 2 digits with leading zeros.
+	
+			'01' to '12'
+
+n	---> Month without leading zeros.	
+		
+			'1' to '12'
+
+M	---> Month, textual, 3 letters.	
+		
+			'Jan'
+
+b	---> Month, textual, 3 letters, lowercase.	
+		
+			'jan'
+
+F	---> Month, textual, long.	
+		
+			'January'
+
+y	---> Year, 2 digits.	
+		
+			'99'
+
+Y	---> Year, 4 digits.	
+		
+			'1999'
+
+h	---> Hour, 12-hour format.	
+		
+			'01' to '12'
+
+H	---> Hour, 24-hour format.	
+		
+			'00' to '23'
+
+i	---> Minutes.	
+		
+			'00' to '59'
+
+s	---> Seconds, 2 digits with leading zeros.	
+		
+			'00' to '59'
+
+u	---> Microseconds.	
+		
+			000000 to 999999
+
+a	---> 'a.m.' or 'p.m.' 
+		
+			'a.m.'
+
+A	---> 'AM' or 'PM'.	
+		
+			'AM'
+
+ex:
+---
+import datetime
+now=datetime.datetime.now()
+
+{{ now|date:"D d M Y" }}
+
+	'Mon 06 May 2024'
+
+
+{{ now|date:"SHORT_DATE_FORMAT" }} -->'d/m/Y'
+
+	'06/05/2024'
+
+You can combine date with the time filter to render a full representation of a datetime value. E.g.:
+
+	value=datetime.datetime.now()
+
+{{ value|date:"D d M Y" }} {{ value|time:"H:i" }}
+
+	'Mon 06 May 2024' '18:06'
+
+
+
+dictsort
+--------
+	Takes a list of dictionaries and returns that list sorted by the key given in the argument.
+
+For example:
+
+x=[
+    {'name': 'zed', 'age': 19},
+    {'name': 'amy', 'age': 22},
+    {'name': 'joe', 'age': 31},
+]
+
+	{{ x|dictsort:"name" }}
+
+[
+    {'name': 'amy', 'age': 22},
+    {'name': 'joe', 'age': 31},
+    {'name': 'zed', 'age': 19},
+]
+
+dictsortreversed
+-----------------
+Takes a list of dictionaries and returns that list sorted in reverse order by the key given in the argument.
+
+divisibleby
+-----------
+	Returns True if the value is divisible by the argument.
+
+	x=21
+	{{ x|divisibleby:"3" }}
+
+		True
+
+	y=25
+
+	{{ y|divisibleby:"3" }}
+
+		False
+
+
+first
+------
+	Returns the first item in a list.
+
+	x=["siva","rama","krishna"]
+
+	{{ x|first }}
+
+		"siva"
+
+last
+-----
+	Returns the last item in a list.
+	
+	x=["siva","rama","krishna"]
+
+	{{ x|last }}
+
+		"krishna"
+
+join
+----
+	Joins a list with a string,
+	like Python’s str.join(list)
+
+	x=["D","Siva"]
+
+	{{ x|join:"." }}
+
+	"D.Siva"
+
+length_is
+--------
+	Returns True if the value’s length is the argument, or False otherwise.
+
+	x="siva"
+
+	{{ x|length_is:"4" }}
+
+		True
+
+	y="krishna"
+
+	{{ y|length_is:"6" }}
+
+		False
+
+linenumbers
+------------
+	Displays text with line numbers.
+
+x="""one
+two
+three"""
+
+{{ x|linenumbers }}
+
+1. one
+2. two
+3. three
+
+
+make_list
+---------
+	Returns the value turned into a list.
+
+	x="siva"
+
+	{{ x|make_list }}
+
+		['s','i','v','a']
+
+random
+-------
+	Returns a random item from the given list.
+
+	x=[6,2.3,4j,"siva"]
+	
+	{{ x|random }}
+
+		"siva"
+
+slice
+-----
+	Returns a slice of the list.
+
+	x=[1,2,3,4]
+
+	{{ x|slice:":2" }}
+
+		[1,2]
+
+wordcount
+---------
+	Returns the number of words.
+
+	x="hai siva krishna good evening"
+
+	{{ x|wordcount }}
+
+		5
+
+
+ex1:
+----
+create a django project with template filters?
+
+step1:
+-----
+to create a django project
+
+D:\siva\django5pm@april2024>sivavenv\scripts\activate
+
+(sivavenv) D:\siva\django5pm@april2024>django-admin startproject proj11
+
+step2:
+-----
+goto project location and to create application in our project.
+
+(sivavenv) D:\siva\django5pm@april2024>cd proj11
+
+(sivavenv) D:\siva\django5pm@april2024\proj11>python manage.py startapp app11
+
+step3:
+-----
+to install our application in the settings.py file of the project
+
+	settings.py
+	-----------
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'app11'
+]
+
+
+step4:
+------
+to create a templates folder and to set the path for our templates in the settings.py file of the project.
+
+	settings.py
+	------------
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [BASE_DIR/'templates'],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+step5:
+-----
+to create a views in the views.py file of application
+
+	views.py
+	--------
+from django.shortcuts import render
+from datetime import datetime
+# Create your views here.
+def welcome(request):
+    dt=datetime.now()
+    msg="hello siva krishna good evening"    
+    context={'cdt':dt,'message':msg}
+    return render(request,'result.html',context)
+
+	result.html
+	-----------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>template filter's example</title>
+</head>
+<body>
+    <h1>{{ message}}</h1>
+    <hr>
+    <h1>{{ message|capfirst}}</h1>
+    <hr>
+    <h1>{{ message|title}}</h1>
+    <hr>
+    <h1>{{ message|truncatewords:"2"}}</h1>
+    <hr>
+    <h1>{{ message|truncatechars:"15"}}</h1>
+    <hr>
+    <h1>{{ message|cut:" "}}</h1>
+    <hr>
+    <h1>{{ message|wordcount}}</h1>
+    <hr>
+    <h1>{{ message|length}}</h1>
+    <hr>
+    <h1>{{ cdt|date:"D d M Y"}}</h1>
+    <hr>
+    <h1>{{ cdt|date:"l d F y"}} {{cdt|date:"H:i:s a"}}</h1>
+    <hr>
+    <h1>{{ cdt|date:"SHORT_DATE_FORMAT"}}</h1>
+</body>
+</html>	
+
+step6:
+-----
+to configure the url patterns for our views in the urls.py file of the project.
+
+	urls.py
+	-------
+from django.contrib import admin
+from django.urls import path
+from app11 import views
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('wel/',views.welcome)
+]
+
+
+step7:
+-----
+to apply the migrations
+
+	python manage.py migrate
+
+step8:
+------
+to start the server
+
+	python manage.py runserver
+
+step9:
+------
+to send the request to the server
+
+	http://127.0.0.1:8000/wel
+
+
+assignment
+-------------
+create a django project to implement the number system calculator?
+

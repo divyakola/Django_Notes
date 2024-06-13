@@ -1,0 +1,198 @@
+ex:
+---
+create a django project to implement the template inheritance concept?
+
+step1:
+------
+to create a django project
+
+D:\siva\django5pm@april2024>sivavenv\scripts\activate
+
+D:\siva\django5pm@april2024>()
+
+(sivavenv) D:\siva\django5pm@april2024>django-admin startproject proj13
+
+step2:
+-----
+goto project location and to create an application in our project location.
+
+(sivavenv) D:\siva\django5pm@april2024>cd proj13
+
+(sivavenv) D:\siva\django5pm@april2024\proj13>python manage.py startapp app13
+
+step3:
+-----
+to install our application in the settings.py file of the project
+
+	settings.py
+	-----------
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'app13'
+]
+
+step4:
+-----
+to create a templates folder and to set the path for our templates in the settings.py file of the project.
+
+	settings.py
+	-----------
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [BASE_DIR/'templates'],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+step5:
+------
+to create a views in the views.py file of the application
+
+	views.py
+	--------
+from django.shortcuts import render
+from datetime import datetime
+# Create your views here.
+def welcome(request):
+    return render(request,'welcome.html')
+
+def wishes(request):
+    return render(request,'wishes.html')
+
+def dateandtime(request):
+    now=datetime.now()
+    return render(request,'sample.html',{'now':now})
+
+
+	base.html
+	---------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body bgcolor="yellow">
+    <h1>hello,everyone</h1>
+    {% block content %}
+    {% endblock %}
+</body>
+</html>
+
+
+	welcome.html
+	------------
+<!DOCTYPE html>
+{% include 'base.html' %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>    
+    welcome to Vagdevi Technologies
+</body>
+</html>
+
+	wishes.html
+	-----------
+<!DOCTYPE html>
+{% include 'base.html' %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    good evening
+</body>
+</html>
+
+	sample.html
+	-----------
+<!DOCTYPE html>
+{% extends 'base.html' %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% block content %}
+    <h2>the current system date and time is: {{ now }} </h2>
+    {% endblock %}
+</body>
+</html>	
+
+step6:
+----
+to configure the url patterns for our views in the urls.py file of the project.
+
+	urls.py
+	-------
+from django.contrib import admin
+from django.urls import path
+from app13 import views
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('wel/',views.welcome),
+    path('hello/',views.wishes),
+    path('cdt/',views.dateandtime)
+]
+
+step7:
+-----
+to apply the migrations
+
+	python manage.py migrate
+
+step8:
+-----
+to start the server
+
+	python manage.py runserver
+
+step9:
+-----
+to send the request to the server
+
+	http://127.0.0.1:8000/wel
+	http://127.0.0.1:8000/hello
+	http://127.0.0.1:8000/cdt
+
+structure:
+---------
+	proj13
+	   |--->app13
+	   |     |--->views.py
+	   |--->proj13
+	   |     |--->settings.py
+	   |     |--->urls.py
+	   |--->templates
+	   |     |--->base.html
+	   |     |--->welcome.html
+	   |     |--->wishes.html
+	   |     |--->sample.html
+	   |--->manage.py
+
+
+	

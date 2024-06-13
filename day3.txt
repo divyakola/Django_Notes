@@ -1,0 +1,425 @@
+what is View?
+-------------
+	a view is a python function or class,which is used to represent the business logics.
+
+	a view takes the request from the enduser/client,process that request and give back the response to the enduser/client.
+
+	we can implement the views in two way's,they are
+
+	1).Function Based views
+
+	2).Class Based views
+
+Function Based views:
+---------------------
+	we can implement the views by using functions,that type of views are called Function based views.
+
+	whenever we are sending the request internally our django engine takes that request,that request is passing to url-dispatcher.
+
+	we can verify that url request is valid or not,wheather it is valid to create request object,that request object is passing to view function and that view function is executed otherwise to raise 404 webpage is not available message on the web browser.
+
+	in function based views we can implement the different http methods like get(),post(),put(),delete(),trace(),move(),...by using conditional statements.
+
+ex:
+----
+create a django project to implement the function based views to display different messages based on the different end points?
+
+step1:
+-----
+to create a django project
+
+D:\siva\django5pm@april2024>sivavenv\scripts\activate
+
+(sivavenv) D:\siva\django5pm@april2024>django-admin startproject proj2
+
+step2:
+----
+goto project location to create an application in the project.
+
+(sivavenv) D:\siva\django5pm@april2024>cd proj2
+
+(sivavenv) D:\siva\django5pm@april2024\proj2>python manage.py startapp app2
+
+step3:
+-----
+to install our application in the settings.py file of the project
+
+	proj2/settings.py
+	-----------------
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'app2'
+]
+
+step4:
+----
+to create a multiple function based views in the views.py file of the application
+
+	app2/views.py
+	-------------	
+#from django.shortcuts import render
+from django.http import HttpResponse
+# Create your views here.
+def morning(request):
+    return HttpResponse("hello siva good morning")
+
+def afternoon(request):
+    return HttpResponse("hello siva good afternoon")
+
+def evening(request):
+    return HttpResponse("hello siva good evening")
+
+def night(request):
+    return HttpResponse("hello siva good night")
+
+step5:
+-----
+to configure the url patterns for our views in the urls.py file of the project.
+
+	proj2/urls.py
+	------------
+from django.contrib import admin
+from django.urls import path
+from app2 import views
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('mor/',views.morning),
+    path("aft/",views.afternoon),
+    path('eve/',views.evening),
+    path('nt/',views.night)
+]
+
+step6:
+-----
+to apply the migrations
+
+(sivavenv) D:\siva\django5pm@april2024\proj2>python manage.py migrate
+
+step7:
+-----
+to start the server
+
+(sivavenv) D:\siva\django5pm@april2024\proj2>python manage.py runserver
+
+step8:
+-----
+to send the request to the server
+
+	http://127.0.0.1:8000/mor
+	http://127.0.0.1:8000/aft
+	http://127.0.0.1:8000/eve
+	http://127.0.0.1:8000/nt
+
+structure:
+---------
+	proj2
+	  |--->app2
+	  |     |--->views.py
+	  |--->proj2
+	  |     |--->settings.py
+          |     |--->urls.py
+          |--->manage.py
+
+
+ex2:
+----
+create a django project to implement the function based views and to display current system date and time on the browser?
+
+step1:
+-----
+to create a django project
+
+D:\siva\django5pm@april2024>sivavenv\scripts\activate
+
+(sivavenv) D:\siva\django5pm@april2024>django-admin startproject proj3
+
+step2:
+----
+goto project location to create an application in the project.
+
+(sivavenv) D:\siva\django5pm@april2024>cd proj3
+
+(sivavenv) D:\siva\django5pm@april2024\proj3>python manage.py startapp app3
+
+step3:
+-----
+to install our application in the settings.py file of the project
+
+	proj2/settings.py
+	-----------------
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'app3'
+]
+
+step4:
+----
+to create a multiple function based views in the views.py file of the application
+
+	app3/views.py
+	-------------	
+#from django.shortcuts import render
+from django.http import HttpResponse
+from datetime import datetime
+# Create your views here.
+
+def cdt(request):
+    dt=datetime.now()
+    return HttpResponse("the Current System Date and Time is: " + str(dt))
+
+
+step5:
+-----
+to configure the url patterns for our views in the urls.py file of the project.
+
+	proj3/urls.py
+	------------
+from django.contrib import admin
+from django.urls import path
+from app3 import views
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('dt/',views.cdt)
+]
+
+step6:
+-----
+to apply the migrations
+
+(sivavenv) D:\siva\django5pm@april2024\proj3>python manage.py migrate
+
+step7:
+-----
+to start the server
+
+(sivavenv) D:\siva\django5pm@april2024\proj3>python manage.py runserver
+
+step8:
+-----
+to send the request to the server
+
+	http://127.0.0.1:8000/dt
+	
+structure:
+---------
+	proj3
+	  |--->app3
+	  |     |--->views.py
+	  |--->proj3
+	  |     |--->settings.py
+          |     |--->urls.py
+          |--->manage.py
+
+example3:
+---------
+create a django project with multiple applications?
+
+step1:
+------
+to create a django project
+
+(sivavenv) D:\siva\django5pm@april2024>django-admin startproject proj4
+
+step2:
+-----
+goto project location and to create an application in the project.
+
+(sivavenv) D:\siva\django5pm@april2024>cd proj4
+
+(sivavenv) D:\siva\django5pm@april2024\proj4>python manage.py startapp app4
+
+(sivavenv) D:\siva\django5pm@april2024\proj4>python manage.py startapp timeapp
+
+(sivavenv) D:\siva\django5pm@april2024\proj4>python manage.py startapp wishesapp
+
+step3:
+-----
+to install our applications in the settings.py file of the project.
+
+	proj4/settings.py
+	-----------------
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'app4',
+    'timeapp',
+    'wishesapp'
+]
+
+step4:
+-----
+to create a views in our applications.
+
+	app4/views.py
+	--------------
+#from django.shortcuts import render
+from django.http import HttpResponse
+# Create your views here.
+def welcome(request):
+    return HttpResponse("welcome to Vagdevi Technologies")
+
+	timeapp/views.py
+	----------------
+#from django.shortcuts import render
+from time import ctime
+# Create your views here.
+def ct(request):
+    return HttpResponse(ctime())
+
+	wishesapp/views.py
+	-------------------
+#from django.shortcuts import render
+from django.http import HttpResponse
+# Create your views here.
+def wishes(request):
+    return HttpResponse("hello siva good evening")
+
+step5:
+-----
+to configure the url patterns for views in the urls.py file of the project.
+
+	proj4/urls.py
+	-------------
+from django.contrib import admin
+from django.urls import path
+from app4 import views
+from timeapp import views
+from wishesapp import views
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('wel/',views.welcome),
+    path('ct/',views.ct),
+    path('msg/',views.wishes)
+]
+
+step6: to apply the migrations
+------
+(sivavenv) D:\siva\django5pm@april2024\proj4>python manage.py migrate
+
+AttributeError: module 'wishesapp.views' has no attribute 'welcome'
+
+
+Scenario-1:
+-----------
+from django.contrib import admin
+from django.urls import path
+import app4.views
+import timeapp.views
+import wishesapp.views
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('wel/',app4.views.welcome),
+    path('ct/',timeapp.views.ct),
+    path('msg/',wishesapp.views.wishes)
+]
+
+scenario-2:
+-----------
+from django.contrib import admin
+from django.urls import path
+from app4.views import welcome
+from timeapp.views import ct
+from wishesapp.views import wishes
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('wel/',welcome),
+    path('ct/',ct),
+    path('msg/',wishes)
+]
+
+scenario-3:
+----------
+Including another URLconf i.e., to create seperate urls.py files in our applications and finally to include that application level urls into project urls.
+
+	app4/urls.py
+	------------
+from django.urls import path
+from .views import welcome
+urlpatterns=[
+    path("wel/",welcome)
+]
+
+	timeapp/urls.py
+	---------------
+from django.urls import path
+from .views import ct
+
+urlpatterns=[
+    path("ct/",ct)
+]
+
+	wishesapp/urls.py
+	----------------
+from django.urls import path
+from .views import wishes
+
+urlpatterns=[
+    path('msg/',wishes)
+]
+
+	proj4/urls.py
+	-------------
+from django.contrib import admin
+from django.urls import path,include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path("app4/",include("app4.urls")),
+    path("timeapp/",include("timeapp.urls")),
+    path("wishesapp/",include("wishesapp.urls")),
+
+]
+
+step7:
+-----
+to start the server
+
+	python manage.py runserver
+
+step8:
+-----
+to send the request to the server
+
+	http://127.0.0.1:8000/app4/wel
+	http://127.0.0.1:8000/timeapp/ct
+	http://127.0.0.1:8000/wishesapp/msg
+
+
+structure:
+----------
+	proj4
+	  |--->app4
+	  |     |--->views.py
+	  |     |--->urls.py
+          |--->timeapp
+	  |     |--->views.py
+	  |     |--->urls.py
+          |--->wishesapp
+	  |     |--->views.py
+	  |     |--->urls.py
+	  |--->proj4
+	  |     |--->settings.py
+	  |     |--->urls.py
+	  |--->manage.py
+
+
+

@@ -1,0 +1,484 @@
+what is Version Control System:
+-------------------------------
+tracking the changes in the source code during the software Development.
+
+Version control system is also known as a Source Code Management
+
+examples:
+---------
+	Helix Core (Perforce)
+	Git
+	SVN
+	ClearCase
+	Mercurial
+	TFS
+
+what is Git?
+-------------
+Git is a Distributed Version Control System for tracking the changes in the source code during the software Development.
+
+Git is a Free and Opensource
+
+
+what is GitHub?
+--------------
+	GitHub is a web-based Git Repository Hosting service,it support all distributed Version control System's/Source Code Mangement System's.
+
+
+Differencess between Git and GitHub:
+------------------------------------	
+		Git
+		----
+Git is a Type of Software
+
+it is a distributed type of version control system that tracks the changes occurring in the source code during the process of software development.
+
+it is basically a command line tool.
+
+it is maintained by linux.
+
+needs to install Git on their System/device locally.
+
+the primary focus of Git is code sharing and version control.
+
+it comes with no feature user management.
+	
+		GitHub
+		------
+GitHub is a Type of Service
+
+it is a hosting service for the Git repository that is web-based.
+
+it is basically a Graphical UI(User Interface).
+
+it is maintained by microsoft
+
+GitHub is a webbased application,you dont have to install it.
+
+the primary focus of GitHub is the hosting of the centralized source code.
+
+it comes with a built-in feature of user management.
+
+
+how to working with GitHub?
+---------------------------
+to create github account and login to your account
+		|
+	to create one remote repository
+
+
+how to download Git?
+-------------------
+	goto https://git-scm.com/
+		|
+	goto downloads
+		|
+	select our operating system
+		|
+	to download standalone version file
+
+how to install Git?
+-------------------
+	double click on Git downloaded file
+		|
+	click on yes
+		|
+	click on next
+		|
+	to select installation/destination location and click on next
+		|
+	to enable desktop shortcut icon and click on next
+		|
+	to choose the start menu folder name and click on next
+		|
+	to click on next
+		|
+	to select any one option and click on next
+		|
+	to select any one option and click on next
+		|
+	to select any one option and click on next
+		|
+	to select any one option and click on next
+		|
+	to select any one option and click on next
+		|
+	to select any one option and click on next
+		|
+	to select any one option and click on next
+		|
+	to select any one option and click on next
+		|
+	to select any one option and click on install
+		|
+	to click on finish
+
+
+Git config:
+------------
+This command configures the user.
+
+The Git config command is the first and necessary command used on the Git command line.
+
+This command sets the author name and email address to be used with your commits. 
+
+
+	syntax:
+	-------
+	git config --global user.name "username"  
+	git config --global user.email "emailid" 
+	git config --global user.password "password" 
+
+example:
+---------
+Lenovo@DESKTOP-54JC4S3 MINGW64 ~
+$ cd desktop
+
+Lenovo@DESKTOP-54JC4S3 MINGW64 ~/desktop
+$ cd gitdemoclass/
+
+Lenovo@DESKTOP-54JC4S3 MINGW64 ~/desktop/gitdemoclass
+$ git config --global user.name "siva"
+
+Lenovo@DESKTOP-54JC4S3 MINGW64 ~/desktop/gitdemoclass
+$ git config --global user.email "siva@gmail.com"
+
+Git init:
+---------
+This command is used to create a local repository.
+
+	syntax:
+	-------
+	git init 
+
+example:
+--------
+Lenovo@DESKTOP-54JC4S3 MINGW64 ~/desktop/gitdemoclass
+$ git init
+Initialized empty Git repository in C:/Users/Lenovo/Desktop/gitdemoclass/.git/
+
+Git add:
+--------
+	When we create, modify or delete a file, these changes will happen in our local and won't be included in the next commit.
+
+	We need to use the git add command to include the changes of a file(s) into our next commit. 
+
+
+	syntax:	To add a single file
+
+		git add <file>
+
+	syntax: To add everything at once
+
+		git add -A
+
+		    (or)
+
+		git add *
+
+example:
+-------
+Lenovo@DESKTOP-54JC4S3 MINGW64 ~/desktop/gitdemoclass (master)
+$ git add sample.txt
+
+
+Git status:
+-----------
+The Git status command gives us all the necessary information about the current branch. 
+
+	syntax:
+	-------
+	git status
+
+We can gather information like:
+	Whether the current branch is up to date
+	Whether there is anything to commit, push or pull
+	Whether there are files staged, unstaged or untracked
+	Whether there are files created, modified or deleted
+
+example:
+---------
+Lenovo@DESKTOP-54JC4S3 MINGW64 ~/desktop/gitdemoclass (master)
+$ git status
+On branch master
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+        new file:   sample.txt
+
+Git log:
+--------
+This command is used to check the commit history.
+
+	syntax:
+	-------
+	git log  
+
+Git commit:
+-----------
+Once we reach a certain point in development, we want to save our changes (maybe after a specific task or issue).
+
+We also need to write a short message to explain what we have developed or changed in the source code.
+
+	syntax:
+	-------
+	git commit -m "commit message"
+
+note:
+-----
+Git commit saves your changes only locally.
+
+example:
+--------
+	before commit
+	--------------
+Lenovo@DESKTOP-54JC4S3 MINGW64 ~/desktop/gitdemoclass (master)
+$ git log
+fatal: your current branch 'master' does not have any commits yet
+
+Lenovo@DESKTOP-54JC4S3 MINGW64 ~/desktop/gitdemoclass (master)
+$ git commit -m "add sample.txt file on 12-06-2024 by siva"
+[master (root-commit) 96def2d] add sample.txt file on 12-06-2024 by siva
+ 1 file changed, 2 insertions(+)
+ create mode 100644 sample.txt
+
+	after commit
+	-------------
+Lenovo@DESKTOP-54JC4S3 MINGW64 ~/desktop/gitdemoclass (master)
+$ git log
+commit 96def2dca4b28c59f05631e10a5acac198e7c7b6 (HEAD -> master)
+Author: siva <siva@gmail.com>
+Date:   Wed Jun 12 18:16:39 2024 +0530
+
+    add sample.txt file on 12-06-2024 by siva
+
+
+Git branch:
+------------
+By using branches, several developers are able to work in parallel on the same project simultaneously.
+
+We can use the git branch command for creating, listing and deleting branches.
+
+	syntax: Creating a new branch
+
+		git branch <branch-name>
+
+To push the new branch into the remote repository, you need to use the following command:
+
+	git push -u <remote> <branch-name>
+
+	syntax: Viewing branches
+
+		git branch or git branch --list
+
+	syntax: Deleting a branch
+
+		git branch -d <branch-name>	
+
+example:
+---------
+Lenovo@DESKTOP-54JC4S3 MINGW64 ~/desktop/gitdemoclass (master)
+$ git branch -M main
+
+Lenovo@DESKTOP-54JC4S3 MINGW64 ~/desktop/gitdemoclass (main)
+$ git branch
+* main
+
+Lenovo@DESKTOP-54JC4S3 MINGW64 ~/desktop/gitdemoclass (main)
+$ git branch --list
+* main
+
+Lenovo@DESKTOP-54JC4S3 MINGW64 ~/desktop/gitdemoclass (main)
+$ git branch -d main
+error: cannot delete branch 'main' used by worktree at 'C:/Users/Lenovo/Desktop/gitdemoclass'
+
+Lenovo@DESKTOP-54JC4S3 MINGW64 ~/desktop/gitdemoclass (main)
+$ git branch dev_test_case
+
+Lenovo@DESKTOP-54JC4S3 MINGW64 ~/desktop/gitdemoclass (main)
+$ git branch
+  dev_test_case
+* main
+
+Lenovo@DESKTOP-54JC4S3 MINGW64 ~/desktop/gitdemoclass (main)
+$ git branch -d dev_test_case
+Deleted branch dev_test_case (was 96def2d).
+
+Lenovo@DESKTOP-54JC4S3 MINGW64 ~/desktop/gitdemoclass (main)
+$ git branch
+* main
+
+git remote:
+-----------
+git remote manages the set of remotes that you are tracking with your local repository.
+
+Common git remote commands
+git remote -v: List the current remotes associated with the local repository
+
+git remote add [name] [URL]: Add a remote
+
+git remote remove [name]: Remove a remote
+
+note:
+-----
+If you try running git remote -v in your repositories, you'll probably see something called origin. You may notice origin in many messages from Git. origin is the human-friendly name for the URL that the remote repository is stored at. It's like a key-value pair, and origin is the default.
+
+example:
+--------
+Lenovo@DESKTOP-54JC4S3 MINGW64 ~/desktop/gitdemoclass (main)
+$ git remote add origin https://github.com/divyakola/demoproject.git
+
+
+Git push:
+---------
+After committing your changes, the next thing you want to do is send your changes to the remote server.
+
+Git push uploads your commits to the remote repository.
+
+	syntax
+	------
+	git push <remote> <branch-name>
+
+		(or)
+
+	git push -u origin <branch_name>
+
+note:
+-----
+Git push only uploads changes that are committed.
+
+example:
+--------
+Lenovo@DESKTOP-54JC4S3 MINGW64 ~/desktop/gitdemoclass (main)
+$ git push -u origin main
+
+Enumerating objects: 3, done.
+Counting objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 253 bytes | 253.00 KiB/s, done.
+Total 3 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
+To https://github.com/divyakola/demoproject.git
+ * [new branch]      main -> main
+branch 'main' set up to track 'origin/main'.
+
+Git pull:
+---------
+The git pull command is used to get updates from the remote repo.
+
+This command is a combination of git fetch and git merge which means that, when we use git pull, it gets the updates from remote repository (git fetch) and immediately applies the latest changes in your local (git merge).
+
+	syntax:
+	-------
+	git pull <remote>
+
+Lenovo@DESKTOP-54JC4S3 MINGW64 ~/desktop/gitdemoclass (main)
+$ git pull
+
+remote: Enumerating objects: 5, done.
+remote: Counting objects: 100% (5/5), done.
+remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+Unpacking objects: 100% (3/3), 935 bytes | 29.00 KiB/s, done.
+From https://github.com/divyakola/demoproject
+   96def2d..6066f33  main       -> origin/main
+Updating 96def2d..6066f33
+Fast-forward
+ sample.txt | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+
+Git merge:
+---------
+When you've completed development in your branch and everything works fine, the final step is merging the branch with the parent branch (dev or master). 
+
+For example, when you want to merge your feature branch into the master/dev branch:
+
+First you should switch to the dev branch:
+
+	git checkout dev/master
+
+Before merging, you should update your local dev/master branch:
+
+	git fetch
+
+Finally, you can merge your feature branch into dev/master:
+
+	git merge <branch-name>
+
+
+Git revert:
+------------
+Sometimes we need to undo the changes that we've made.
+
+There are various ways to undo our changes locally or remotely (depends on what we need), but we must carefully use these commands to avoid unwanted deletions.
+
+A safer way that we can undo our commits is by using git revert.
+To see our commit history, first we need to use git log -- oneline
+
+	syntax: commit history
+	-------
+	git log -- oneline
+
+Then we just need to specify the hash code next to our commit that we would like to undo:
+
+	syntax:
+	-------
+	git revert <hash-code>
+
+
+
+Git checkout:
+-------------
+To work in a branch, first you need to switch to it.
+We use git checkout mostly for switching from one branch to another.
+
+We can also use it for checking out files and commits.
+
+	syntax
+	------
+	git checkout <name-of-your-branch>
+
+to create and switch to a branch at the same time.
+	
+	syntax
+	------
+	git checkout -b <name-of-your-branch>
+
+		here -b means branch
+
+note:
+----
+ git push --set-upstream origin test_env
+
+
+Git clone:
+----------
+Git clone is a command for downloading existing source code from a remote repository (like Github,...)
+
+	syntax
+	------
+	git clone <https://name-of-the-repository-link>
+
+
+
+example:
+-------
+	goto gitbash
+	    |
+	goto our project location
+	    |
+	$ git config --global user.name "username"
+        $ git config --global user.email "emailid"
+	$ git config --global user.password "password"
+        $ git init  #initialize the git repository
+	    |
+	$ git add --all #to add our local files to staging area
+	    |
+        $ git commit -m "message"
+            |
+        $ git branch -M main
+            |
+	$ git remote add origin https://github.com/kommisettiAjaypandu/mynewsaggrigator.git
+	    |
+	$ git push -u origin main
+

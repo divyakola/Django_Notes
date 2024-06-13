@@ -1,0 +1,625 @@
+what is Web Application?
+------------------------
+a web application is a server-side program,that utilizes web browsers and web technologies to perform the task over the web/internet.
+
+	ex: websites(social media websites,personal websites,news websites,goverment websites,....)
+
+the most of the web applications are follow the 3-tier architecture.
+
+what is website?
+----------------
+website is a collection webpages(html documents).
+
+the web sites can be categorized into 2-types,they are
+
+	1).static websites
+
+	2).Dynamic websites(web applications)
+
+if we want to run the web applications to required servers,that types of servers are called web servers.
+
+	ex: apache tomcat server,
+	    IIS server,
+	    DDS(Django Development Server)
+	    WAS server,
+	    Jboss server,
+	    weblogic server,
+	    .......,
+	    .......,etc.,
+
+what requirements are needed to implement web application?
+----------------------------------------------------------
+	1).Technologies
+		a).FrontEnd/UI technologies
+		b).BackEnd/Serverside technologies
+		c).Database technologies
+
+	2). IDE's
+
+	3). Architecture/Design patterns
+
+	4). Deployment Servers
+
+
+FrontEnd/UI technologies:
+-------------------------
+these technologies are used to implement the client side programs.
+
+these technologies are used to perform the client-side validations.
+
+the client-side technologies are html,css,javascript,bootstrap,jquery,..
+
+if we want to run the client side programs to required web browsers like chrome,firefox,edge,safari,opera,...
+
+what is HTML?
+-------------
+HTML(Hypertext Markup Language)
+
+HTML is a markup language,which is used to build the basic web pages.
+
+HTML provides basic structure of web pages.
+
+ex:
+---
+	demo.html
+	---------
+<!DOCTYPE html>
+<html>
+<head>
+<title>sample html document</title>
+</head>
+<body>
+<h1>welcome to vagdevi technologies</h1>
+</body>
+</html>
+
+what is CSS?
+------------
+CSS(Cascading Style Sheets)
+
+CSS is a style sheet language,which is used to provide the beauty of our webpages.
+
+ex:
+---
+	demo.html
+	---------
+<!DOCTYPE html>
+<html>
+<head>
+<title>sample html document</title>
+<link rel="stylesheet" href="demo.css">
+</head>
+<body>
+<h1>welcome to vagdevi technologies</h1>
+</body>
+</html>
+
+
+	demo.css
+	--------
+body{
+     background-color:powderblue;
+    }
+
+h1{
+    text-align:center;
+    color:red;
+    font-family:elephant;
+    font-style:italic;
+   }
+
+
+what is Javascript?
+--------------------
+Javascript is a object oriented scripting programming language.
+Javascript is a interpreted language.
+the Javascript is used to provide the dynamic actions to our webpages.
+the Javascript is used to implement the client side validations.
+
+ex:
+---
+	demo.html
+	----------
+<!DOCTYPE html>
+<html>
+<head>
+<title>sample html document</title>
+<link rel="stylesheet" href="demo.css">
+<script type="text/javascript" src="demo.js">	
+</script>
+</head>
+<body>
+</body>
+</html>
+
+	demo.css
+	--------
+body{
+     background-color:powderblue;
+    }
+
+	demo.js
+	-------
+let x=prompt("enter your input: ");
+document.write("welcome to"+" "+x);
+
+
+server side technologies:
+-------------------------
+these technologies are used to implement the business logics.
+
+the server side programs takes the request from the enduser/client,process that request and give back the response to the end user.
+
+the server side technologies are Python,Java,C#,PHP,Ruby,....
+
+we can run the server side programs to required that particular programming language related virtual machine is required.
+
+	Python		--> PVM
+	Java		--> JVM
+
+ex1:
+----
+write a java program to print "hello world"?
+
+
+import java.io.*;
+class Test
+{
+    public static void main(String[] args)
+    {
+        System.out.println("hello world");
+    }
+}
+
+ex2:
+----
+write a python program to print "hello world"?
+
+print("hello world")
+
+
+Database technologies:
+----------------------
+the database technologies are used to communicate the databases.
+
+SQL is a common database language.
+
+by using SQL to perform the CRUD operations like create,retreive,update,delete operations.
+
+ex1:
+---
+write a sql command to return the list of databases in mysql server?
+
+mysql> show databases;
+
++--------------------+
+| Database           |
++--------------------+
+| bank               |
+| customer           |
+| employee           |
+| fashion            |
+| information_schema |
++--------------------+
+5 rows in set (0.26 sec)
+
+ex2:
+----
+write a sql command to create a database in mysql server?
+
+mysql> create database djangodemo;
+
+Query OK, 1 row affected (0.94 sec)
+
+ex3:
+----
+write a sql command to create a table in mysql server?
+
+mysql> create table emp(eid integer primary key,ename char(20),esal double(6,2),dno integer);
+
+Query OK, 0 rows affected, 1 warning (1.50 sec)
+
+ex4:
+----
+write a sql command to insert the data?
+
+mysql> insert into emp values(101,'siva',3000,10);
+Query OK, 1 row affected (0.41 sec)
+
+mysql> insert into emp(eid,ename,esal,dno) values(102,'rama',4000,20);
+Query OK, 1 row affected (0.22 sec)
+
+ex5:
+----
+write a sql command to retreive the data?
+
+mysql> select * from emp;
++-----+-------+---------+------+
+| eid | ename | esal    | dno  |
++-----+-------+---------+------+
+| 101 | siva  | 3000.00 |   10 |
+| 102 | rama  | 4000.00 |   20 |
++-----+-------+---------+------+
+2 rows in set (0.06 sec)
+
+ex6:
+----
+write a sql command to update the data?
+
+mysql> update emp set esal=3500 where eid=101;
+Query OK, 1 row affected (0.20 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from emp;
++-----+-------+---------+------+
+| eid | ename | esal    | dno  |
++-----+-------+---------+------+
+| 101 | siva  | 3500.00 |   10 |
+| 102 | rama  | 4000.00 |   20 |
++-----+-------+---------+------+
+2 rows in set (0.00 sec)
+
+ex7:
+---
+write a sql command to delete the data?
+
+mysql> delete from emp where eid=101;
+Query OK, 1 row affected (0.10 sec)
+
+mysql> select * from emp;
++-----+-------+---------+------+
+| eid | ename | esal    | dno  |
++-----+-------+---------+------+
+| 102 | rama  | 4000.00 |   20 |
++-----+-------+---------+------+
+1 row in set (0.00 sec)
+
+
+IDE's:
+------
+IDE's(Integrated Development Environment's)
+
+IDE's are tools which will provides good environment to implement the applications more quickly and lesscode
+
+the IDE's support automatic debugging concept.
+
+the IDE's are Pycharm,Pydev,Spyder,Eclipse,Netbeans,Vs Code,...
+
+Design Pattern's:
+-----------------
+a software design pattern is a general, reusable solution to a commonly occurring problem within a given context in software design.
+
+the Design Patterns mainly categorized into 3-parts,they are
+
+	1).Creatinal Design Patterns
+
+	2).Structural Design Patterns
+
+	3).Behavioral Design Patterns
+
+the most of the programming languages are using "MVC" design pattern to develop the user interfaces like web applications but the Django Developers are using "MVT" design pattern.
+
+MVC(Model View Controller)
+
+	ref figure: MVC design pattern
+
+
+MVT(Model View Templates)
+
+	ref figure: MVT design pattern
+
+
+Deployment servers:
+-------------------
+the services are IaaS(Infrastructure as a Service)
+	         PaaS(Platform as a Service)
+		 SaaS(Software as a Service)
+
+examples:
+---------
+	1. Heroku
+
+Heroku is a Platform as a Service (PaaS) that offers support to several programming languages including Node.js, Python, Go and Java.
+
+	2. Firebase
+
+Firebase from Google offers application hosting, deployment, and many helpful back-end services.
+
+	3. DigitalOcean
+
+The DigitalOcean app platform is a robust programme to build, manage, and scale your apps.The app platform supports several programming languages, including Node.js, Python, JavaScript, Go and Ruby. You can also deploy container images and static sites.
+
+	4. Google App Engine(GAE)
+
+Google App Engine is an offering of Google Cloud Platform (GCP). It is a serverless platform that helps in building highly scalable apps.You can deploy applications built with Java, Python, Node.js, Go, and many more.
+
+	5. AWS Amplify
+
+Amplify is an essential AWS service for building, deploying, and hosting apps. Be it static websites, single page apps (SPAs) or server-side rendered apps (SSRs), amplify works really well. 
+
+	6. python anywhere
+
+PythonAnywhere is an online integrated development environment and web hosting service based on the Python programming language.
+
+
+
+what is Module?
+---------------
+a module is a python file,which conatins executable statements,variables,functions and classes.
+
+every python file act as a one module,by default that module is called main module.
+
+	ex:
+	---
+	demo.py		--> demo is a module name
+
+ex:
+----
+math
+random
+calendar
+
+what is Package?
+----------------
+a package is a collection of python modules.
+
+we can treat any package as a python package,that package contains __init__.py file.
+
+some times a package contains another package,that package is called sub package.
+
+we can treat that subpackage also python package,that subpackage also contains __init__.py file.
+
+ex:
+---
+collections
+tkinter
+sqlite3
+mysql.connector
+pandas
+numpy
+
+what is Library?
+-----------------
+a library is a collection of python packages.
+
+ex:
+---
+matplotlib
+pillow	--> PIL(Python Image Library)
+
+what is Framework?
+------------------
+a framework is a collection of python libraries.
+
+which will provides basic structure to build the applications more quickly.
+
+we can developing web applications through any framework,that type of frameworks are called web frameworks.
+
+	ex: Django,Flask,Bottle,Web2py,CherryPI,FastAPI,Tornado,
+	    Pyramid,....
+
+what is Django?
+-----------------
+a Django is a python related high-level web application development framework.
+
+It makes easier to build the better web applications with less code and more quickly/faster development/rapid development.
+
+it follows MVT(Model View Template) Design Pattern.
+
+History of Django:
+------------------
+Django was developed by Adrian Holovathy and Simon willison in the year of 2003 but officially announce it is free and opensource project to the public in the year of 2005.
+
+the name Django was derived from the famous Guitarist "Django Reinhardt".
+
+the Dajngo was maintained by DSF(Django Software Foundation) Team.
+
+	www.djangoproject.com
+
+who uses Django?
+----------------
+1).Instagram
+2).NASA
+3).Bitbucket
+4).pintrest
+5).mozilla
+6).disqus
+7).knight foundation
+8).National Geographic
+9).washington DC news
+10).Open Stack
+.....
+.....etc.,
+
+
+Advantages of Django?
+---------------------
+1).Less Code
+2).Faster Development
+3).Fully Loaded
+4).Security
+5).Scalable
+6).Versatile
+
+Features of Django?
+-------------------
+1).Django follows MVT architectural Pattern
+2).Django Follows ORM(Object Relational Mapper) concept.
+3).Django provides builtin database server like sqlite3.
+4).Django provides builtin web server like 
+DDS(Django Development Server).
+5).Django provides builtin Admin pannel
+6).Django provides customizable Admin pannel
+7).Django is a Free and Opensource
+8).Django provides great Documentation
+
+Django Architecture:
+--------------------
+	ref fig: Django Architecture
+
+whenever the enduser/client,to send the request to the server internally the Django framework takes that request and that request is passing to URL dispatcher.
+
+URL Dispatcher is nothing but a python program,all the url patterns related to our application in the URL dispatcher.
+
+we can configure url patterns in the urls.py file.
+
+the Django framework to verify that particular url is available or not,if it is not availabel then immediately to raise Standard Error message to the the enduser like 404 webpage is not available otherwise the control will goto Views.
+
+we can implement url pattern by using regular expressions.
+
+a view is a python function or class,it takes the request from the enduser,process that request and give back the response to the end user.
+
+we can implement views in the views.py file of the application.
+
+at the time of process the enduser request our views can be communicateing with the databases.
+
+the views can be communicate the databases with the help of models.
+
+a model is a python class,which is used to implement the database logics.
+
+we can implement the models in the models.py file of the application.
+
+after process the client request,the view can be transfer the data/result to the enduser/client through the templates.
+
+a template is a html file,we can include the python code by using some template languages like DTL,Jinja2.
+
+by using template languages we are achive the HTML code reusability.
+
+
+MVT(Model View Templates)
+----
+what is Model?
+--------------
+a model is a Python class,which is used to represent the Database logics.
+
+we can implement all the models in the models.py file of the application.
+
+what is View?
+-------------
+a view is a python function/class,which is used to represent the Business logics.
+
+we can implement the all the views in the views.py file of the application.
+
+what is Template?
+-----------------
+a Template is a HTML files,which is used to implement the Presentation logics.
+
+in Django Templates we are using another special langauge to achive the HTML code reusability,that languages are called Django Template Langauges(DTL) like Jinja2.
+
+
+
+
+
+Django Environment Setup:
+-------------------------
+if we want to create a django projects,to required following things
+
+	1).Python(PVM)
+	2).Codeing Environments(Editors/IDE's)
+	3).Virtual Environment(virtualenv)
+	4).Django framework
+
+
+what is pip?
+-------------
+pip is a tool for installing packages from the Python Package Index(PyPI).
+
+by default we can access the pip only on Scripts folder.
+
+if we want to access the pip on any location of our computer,in that case we need to set the path for pip.
+
+	C:\Python312(python installation path)
+	     |---> Scripts
+	     |        |--->pip
+
+
+what is virtualenv?
+-------------------
+virtualenv is a tool for creating isolated Python environments,it contains their own copy of python, pip, and their own place to keep libraries installed from PyPI.
+
+It's designed to allow you to work on multiple projects with different dependencies at the same time on the same machine.
+
+if we want to create our own virtual environment first we need to install virtualenv.
+
+if we want to install virtualenv,in that case we are using following command,
+
+	pip install virtualenv
+
+ex:
+----
+D:\siva\django5pm@april2024>pip install virtualenv
+
+after installing virtualenv,next we need to create our own virtual environment.
+
+if we want to create our own virtual environment,in that case we are using following command
+
+	virtualenv  ourvirtualenvironmentname
+
+ex:
+----
+D:\siva\django5pm@april2024>virtualenv sivavenv
+
+how to activate our virtual environment?
+----------------------------------------
+if we want to activate our virtual environment,in that case we are using following command
+
+	ourvirtualenvironmentname\Scripts\activate
+
+ex:
+---
+D:\siva\django5pm@april2024>sivavenv\scripts\activate
+
+
+(sivavenv) D:\siva\django5pm@april2024>
+
+how to deactivate our virtual environment?
+-------------------------------------------
+if we want to deactivate our virtual environment,in that case we are using following command
+
+	ourvirtualenvironmentname\Scripts\deactivate
+
+ex:
+---
+(sivavenv) D:\siva\django5pm@april2024>sivavenv\scripts\deactivate
+D:\siva\django5pm@april2024>
+
+what is PEP?
+-------------
+PEP stands for Python Enhancement Proposal,and there are several of them.
+
+A PEP is a document that describes new features proposed for Python and documents aspects of Python, like design and style, for the community.
+
+PEP 8 – Style Guide for Python Code
+
+PEP 202 – List Comprehensions
+
+how to install Django framework?
+--------------------------------
+if we want to install django framework,in that case we are using following command
+
+	pip install django==versionnumber
+
+		(or)
+
+	pip install django
+
+ex:
+---
+D:\siva\django5pm@april2024>sivavenv\scripts\activate
+
+
+(sivavenv) D:\siva\django5pm@april2024>pip install django
+
+how to get Django Version?
+---------------------------
+if we want to get the django version,in that case we are using following command
+
+	django-admin --version
+
+ex:
+---
+(sivavenv) D:\siva\django5pm@april2024>django-admin --version
+5.0.4
+
+
+

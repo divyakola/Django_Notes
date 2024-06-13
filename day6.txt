@@ -1,0 +1,236 @@
+ex:
+----
+create a django project to read the data from the user input to perform the addition operation by using get() and post() methods?
+
+
+step1:
+------
+to create a project
+
+D:\siva\django5pm@april2024>sivavenv\scripts\activate
+
+(sivavenv) D:\siva\django5pm@april2024>django-admin startproject proj7
+
+step2:
+-----
+goto project location and to create an application in our project
+
+(sivavenv) D:\siva\django5pm@april2024>cd proj7
+
+(sivavenv) D:\siva\django5pm@april2024\proj7>python manage.py startapp app7
+
+step3:
+-----
+to install our application in the settings.py file of the project
+
+	settings.py
+	----------
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'app7'
+]
+
+step4:
+-----
+to create a templates folder and to set the path for our templates in the settings.py file of the project.
+
+	settings.py
+	-----------
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [BASE_DIR/'templates'],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+step5:
+------
+to create a views in the views.py file of the application
+
+	views.py
+	--------
+from django.shortcuts import render
+
+# Create your views here.
+def ginput(request):
+    return render(request,'ginput.html')
+
+def pinput(request):
+    return render(request,'pinput.html')
+
+def addition(request):
+    if request.method=='GET':
+        x=int(request.GET['fn'])
+        y=int(request.GET['sn'])
+        z=x+y
+        context={'num1':x,'num2':y,'res':z}
+        return render(request,'goutput.html',context)
+    
+    elif request.method=='POST':
+        x=int(request.POST['fn'])
+        y=int(request.POST['sn'])
+        z=x+y
+        context={'num1':x,'num2':y,'res':z}
+        return render(request,'poutput.html',context)
+
+	ginput.html
+	-----------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ginput</title>
+</head>
+<body>
+    <fieldset>
+        <legend>ginput form</legend>
+        <form action="sum">
+            <input type="text" placeholder="Enter first number" 
+            name="fn"><br><br>
+            <input type="text" placeholder="Enter second number" 
+            name="sn"><br><br>
+            <input type="submit" value="add">
+        </form>
+    </fieldset>
+</body>
+</html>
+
+	goutput.html
+	------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>goutput</title>
+</head>
+<body>
+    <h1>the sum of {{num1}} and {{num2}} is: {{res}}</h1>
+</body>
+</html>
+
+	pinput.html
+	-----------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ginput</title>
+</head>
+<body>
+    <fieldset>
+        <legend>pinput form</legend>
+        <form action="sum" method="post">
+            {% csrf_token %}
+            <input type="text" placeholder="Enter first number" 
+            name="fn"><br><br>
+            <input type="text" placeholder="Enter second number" 
+            name="sn"><br><br>
+            <input type="submit" value="add">
+        </form>
+    </fieldset>
+</body>
+</html>
+
+	poutput.html
+	------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>poutput</title>
+</head>
+<body>
+    <h1>the sum of {{num1}} and {{num2}} is: {{res}}</h1>
+</body>
+</html>
+
+step6:
+------
+to configure the urls patterns for our views in the urls.py file of the application.
+
+	app7/urls.py
+	------------
+from django.urls import path,re_path
+from . import views
+
+urlpatterns=[
+    path('gin/',views.ginput),
+    re_path('sum',views.addition),
+    path('pin/',views.pinput)
+]
+
+
+including application level urls into project level urls i.e., including another URLConf
+
+	proj7/urls.py
+	-------------
+from django.contrib import admin
+from django.urls import path,include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('',include("app7.urls")),
+]
+
+
+step7:
+-----
+to apply the migrations
+
+	python manage.py migrate
+
+step8:
+------
+to start the server
+
+	python manage.py runserver
+
+step9:
+-----
+to send the request to the server
+
+	http://127.0.0.1:8000/gin
+	http://127.0.0.1:8000/pin
+	http://127.0.0.1:8000/sum
+
+
+structure:
+----------
+	proj7
+	  |--->app7
+	  |     |--->views.py
+	  |     |--->urls.py
+	  |--->proj7
+	  |     |--->settings.py
+	  |     |--->urls.py
+	  |--->templates
+	  |     |--->ginput.html
+          |     |--->goutput.html
+          |     |--->pinput.html
+          |     |--->poutput.html
+          |--->manage.py
+
+
+assignment-2:
+-------------
+create a django project to implement the BMI calculator?
+
+

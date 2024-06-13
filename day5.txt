@@ -1,0 +1,234 @@
+ex:
+---
+create a django project to read the two input values from the user and to perform the addition operation by using get() method?
+
+
+step1:
+-----
+to create a django project
+
+D:\siva\django5pm@april2024>sivavenv\scripts\activate
+
+(sivavenv) D:\siva\django5pm@april2024>django-admin startproject proj6
+
+step2:
+------
+goto project location and to create an application in our project location.
+
+(sivavenv) D:\siva\django5pm@april2024>cd proj6
+
+(sivavenv) D:\siva\django5pm@april2024\proj6>python manage.py startapp app6
+
+step3:
+-----
+to install our application in the settings.py file of the project
+
+	settings.py
+	-----------
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'app6'
+]
+
+step4:
+------
+to create a templates folder and to set the path for our templates in the settings.py file of the project.
+
+	settings.py
+	-----------
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [BASE_DIR/'templates'],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+step5:
+------
+to create a views in the views.py file of the application
+
+	views.py
+	--------
+from django.shortcuts import render
+
+# Create your views here.
+def ginput(request):
+    return render(request,'input.html')
+
+def addition(request):
+    x=int(request.GET['fn'])
+    y=int(request.GET['sn'])
+    z=x+y
+    return render(request,'output.html',{'num1':x,'num2':y,'res':z})
+
+	input.html
+	----------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body bgcolor="cyan">
+    <form action="sum">
+        Enter First Number:
+        <input type="text" name="fn"><br><br>
+        Enter Second Number:
+        <input type="text" name="sn"><br><br>
+        <input type="submit" value="Add">
+    </form>
+</body>
+</html>
+
+	output.html
+	-----------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body bgcolor="blue">
+    <h1> the sum of {{num1}} and {{num2}} is: {{res}} </h1>
+    <br><br>
+    <a href="/in">back to home</a>
+</body>
+</html>
+
+step6:
+------
+to configure the url patterns for our views in the urls.py file of the project
+
+	urls.py
+	--------
+from django.contrib import admin
+from django.urls import path,re_path
+from app6 import views
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('in/',views.ginput),
+    re_path("sum",views.addition)   
+
+]
+
+step7:
+------
+to apply the migrations
+
+	python manage.py migrate
+
+step8:
+-----
+to start the server
+
+	python manage.py runserver
+
+step9:
+------
+to send the request to the server
+
+	http://127.0.0.1:8000/in
+	http://127.0.0.1:8000/sum
+
+structure:
+---------
+	proj6
+          |--->app6
+	  |     |--->views.py
+	  |--->proj6
+	  |     |--->settings.py
+	  |     |--->urls.py
+          |--->templates
+	  |     |--->input.html
+          |     |--->output.html
+          |--->manage.py
+
+
+ex:
+---
+create a django project to read the two input values from the user and to perform the addition operation by using post() method?
+	
+
+step5:
+-----
+	views.py
+	--------
+from django.shortcuts import render
+
+# Create your views here.
+def ginput(request):
+    return render(request,'input.html')
+
+def addition(request):
+    x=int(request.POST['fn'])
+    y=int(request.POST['sn'])
+    z=x+y
+    return render(request,'output.html',{'num1':x,'num2':y,'res':z})
+
+	input.html
+	----------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body bgcolor="cyan">
+    <form action="sum" method="post">
+        {% csrf_token %} 
+        Enter First Number:
+        <input type="text" name="fn"><br><br>
+        Enter Second Number:
+        <input type="text" name="sn"><br><br>
+        <input type="submit" value="Add">
+    </form>
+</body>
+</html>
+
+	output.html
+	-----------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body bgcolor="blue">
+    <h1> the sum of {{num1}} and {{num2}} is: {{res}} </h1>
+    <br><br>
+    <a href="/in">back to home</a>
+</body>
+</html>
+
+what is csrf?
+-------------
+Cross-Site Request Forgery (CSRF) is an attack that forces authenticated users to submit a request to a Web application against which they are currently authenticated.
+
+When a user is authenticated and surfing on the website, Django generates a unique CSRF token for each session. 
+
+we can prevent our web application from these attack,in that case we are adding 		{% csrf_token %} tag in our form whenever we are using post method.
+
+assignment-1:
+-------------
+create a django project to display particular month calendar on the web browser?
+
+

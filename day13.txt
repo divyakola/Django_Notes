@@ -1,0 +1,349 @@
+Django ORM
+-----------
+ORM(Object Relational Mapper)
+
+Django ORM provides an elegant and powerful way to interact with the database instead of writeing sql queries.
+
+ORM describing how to access the data,manipulate the data and store the data into the database in object oriented fashion.
+
+by using ORM,we can perform CURD operations.
+	Create ==> insert
+	Update
+	Retrieval	
+	Delete
+
+How to start Django shell?
+--------------------------
+	we can start the Django shell by using the "shell" command
+
+		python manage.py shell
+
+Database Access through managers:-
+---------------------------------
+Django by default adds a manager called "objects" to every model class.
+
+The objects manager helps us to interact with the databse in complicated ways.
+
+The objects manager is the most common way for Django developers to interact with the database.
+
+ex:
+----
+	models.py
+	---------
+from django.db import models
+
+# Create your models here.
+class Employee(models.Model):
+    id=models.IntegerField(primary_key=True)
+    name=models.CharField(max_length=30)
+    sal=models.DecimalField(max_digits=6,decimal_places=2)
+    dno=models.IntegerField()
+    status=models.BooleanField(default=False)
+    email=models.EmailField(blank=True)
+    doj=models.DateField(null=True)
+
+    def __str__(self):
+        return "%d %s %.2f %d %s %s %s"%(self.id,self.name,self.sal,self.dno,self.status,self.email,self.doj)
+
+
+ex:
+---
+(sivavenv) D:\siva\django5pm@april2024\proj16>python manage.py shell
+Python 3.12.3 
+
+>>> from app16.models import Employee
+>>> Employee.objects
+<django.db.models.manager.Manager object at 0x00000209A87CD610>
+>>> type(Employee.objects)
+<class 'django.db.models.manager.Manager'>
+
+
+how to create an objects through ORM?
+-------------------------------------
+Through ORM,We are creating an objects in 3-ways
+
+	1).Normal i.e., directly we are creating an object's
+
+	2).by using create() of objects manager
+
+	3).by using bulk_create() of objects manager
+
+ex1: Normal
+----
+>>> e1=Employee(id=101,name='siva',sal=4000,dno=10,status=True,email='siva@gmail.com',doj="2020-05-21")
+>>> e1.save()
+
+>>> e2=Employee(id=102,name='rama',sal=3000,dno=20,doj=None)
+>>> e2.save()
+
+ex2: by using create() of objects manager
+----
+>>> Employee.objects.create(id=103,name="krishna",sal=3500,dno=30,email='krishna@gmail.com')
+<Employee: 103 krishna 3500.00 30 False krishna@gmail.com None>
+
+>>> Employee.objects.create(id=104,name="sachin",sal=3900,dno=10,status=True,doj='2021-12-12')
+<Employee: 104 sachin 3900.00 10 True  2021-12-12>
+
+ex3: by using bulk_create() of objects manager
+----
+>>> Employee.objects.bulk_create([Employee(id=105,name='virat',sal=4500,dno=20,status=True,email='virat@gmail.com',doj='2021-06-12'),Employee(id=106,name='dhoni',sal=3300,dno=30),Employee(id=107,name='rohith',sal=3700,dno=10,status=True,email='rohith@gmail.com',doj='2022-08-23')])
+
+[<Employee: 105 virat 4500.00 20 True virat@gmail.com 2021-06-12>, <Employee: 106 dhoni 3300.00 30 False  None>, <Employee: 107 rohith 3700.00 10 True rohith@gmail.com 2022-08-23>]
+
+how to retreive the objects?
+----------------------------
+if we want to retreive the objects,in that case we are using all() of objects manager.
+
+the all() to return the QuerySet object.
+
+the QuerySet object is also same like as a list object in python but the QuerySet object dont supporting negative indexing concept.
+
+ex:
+----
+>>> records=Employee.objects.all()
+>>> records
+<QuerySet [<Employee: 101 siva 4000.00 10 True siva@gmail.com 2020-05-21>, <Employee: 102 rama 3000.00 20 False  None>, <Employee: 103 krishna 3500.00 30 False krishna@gmail.com None>, <Employee: 104 sachin 3900.00 10 True  2021-12-12>, <Employee: 105 virat 4500.00 20 True virat@gmail.com 2021-06-12>, <Employee: 106 dhoni 3300.00 30 False  None>, <Employee: 107 rohith 3700.00 10 True rohith@gmail.com 2022-08-23>]>
+
+>>> type(records)
+<class 'django.db.models.query.QuerySet'>
+
+>>> records[0]
+<Employee: 101 siva 4000.00 10 True siva@gmail.com 2020-05-21>
+
+>>> records[-1]
+ValueError: Negative indexing is not supported.
+
+>>> records[len(records)-1]
+<Employee: 107 rohith 3700.00 10 True rohith@gmail.com 2022-08-23>
+
+>>> records[:3]
+[<Employee: 101 siva 4000.00 10 True siva@gmail.com 2020-05-21>, <Employee: 102 rama 3000.00 20 False  None>, <Employee: 103 krishna 3500.00 30 False krishna@gmail.com None>]
+
+ex2:
+----
+>>> records=Employee.objects.all()
+>>> for rec in records:
+        print(rec)
+
+101 siva 4000.00 10 True siva@gmail.com 2020-05-21
+102 rama 3000.00 20 False  None
+103 krishna 3500.00 30 False krishna@gmail.com None
+104 sachin 3900.00 10 True  2021-12-12
+105 virat 4500.00 20 True virat@gmail.com 2021-06-12
+106 dhoni 3300.00 30 False  None
+107 rohith 3700.00 10 True rohith@gmail.com 2022-08-23
+
+ex3:
+----
+>>> records=Employee.objects.all()
+>>> for rec in records:
+        print(rec.id,rec.name,rec.sal,rec.dno,rec.status,rec.email,rec.doj)
+
+101 siva 4000.00 10 True siva@gmail.com 2020-05-21
+102 rama 3000.00 20 False  None
+103 krishna 3500.00 30 False krishna@gmail.com None
+104 sachin 3900.00 10 True  2021-12-12
+105 virat 4500.00 20 True virat@gmail.com 2021-06-12
+106 dhoni 3300.00 30 False  None
+107 rohith 3700.00 10 True rohith@gmail.com 2022-08-23
+
+how to get sql query for our model query?
+-------------------------------------------
+if we want to generate the sql query for our model query, in that case we are using query attribute.
+
+ex:
+---
+>>> print(Employee.objects.all().query)
+
+SELECT "app16_employee"."id", "app16_employee"."name", "app16_employee"."sal", "app16_employee"."dno", "app16_employee"."status", "app16_employee"."email", "app16_employee"."doj" FROM "app16_employee"
+
+how to get the no.of objects?
+------------------------------
+	if we want to return the no.of objects,in that case we are using count() of objects manager.
+
+ex:
+---
+>>> Employee.objects.all().count()
+7
+
+>>> Employee.objects.count()
+7
+
+>>> len(Employee.objects.all())
+7
+
+
+how to get the objects in order wise?
+--------------------------------------
+if we want to return the object order wise like ascending/descending order,on that case we are order_by() of objects manager.
+
+	order_by('columnname')	--> ascending order
+
+	order_by('-columnname')	--> descending ordr
+
+ex:  ascending order based on salary
+---
+>>> for rec in Employee.objects.all().order_by("sal"):
+     print(rec)
+
+102 rama 3000.00 20 False  None
+106 dhoni 3300.00 30 False  None
+103 krishna 3500.00 30 False krishna@gmail.com None
+107 rohith 3700.00 10 True rohith@gmail.com 2022-08-23
+104 sachin 3900.00 10 True  2021-12-12
+101 siva 4000.00 10 True siva@gmail.com 2020-05-21
+105 virat 4500.00 20 True virat@gmail.com 2021-06-12
+
+ex: descending order based on salary
+----
+>>> for rec in Employee.objects.all().order_by("-sal"):
+        print(rec)
+
+105 virat 4500.00 20 True virat@gmail.com 2021-06-12
+101 siva 4000.00 10 True siva@gmail.com 2020-05-21
+104 sachin 3900.00 10 True  2021-12-12
+107 rohith 3700.00 10 True rohith@gmail.com 2022-08-23
+103 krishna 3500.00 30 False krishna@gmail.com None
+106 dhoni 3300.00 30 False  None
+102 rama 3000.00 20 False  None
+
+ex3:
+----
+>>> for rec in Employee.objects.order_by('sal'):
+        print(rec)
+
+102 rama 3000.00 20 False  None
+106 dhoni 3300.00 30 False  None
+103 krishna 3500.00 30 False krishna@gmail.com None
+107 rohith 3700.00 10 True rohith@gmail.com 2022-08-23
+104 sachin 3900.00 10 True  2021-12-12
+101 siva 4000.00 10 True siva@gmail.com 2020-05-21
+105 virat 4500.00 20 True virat@gmail.com 2021-06-12
+
+how to filter the objects?
+---------------------------
+if we want to filter the objects,in that case we are using filter() of objects manager.
+
+ex1:
+----
+>>> for rec in Employee.objects.all().filter(dno=10):
+        print(rec)
+
+101 siva 4000.00 10 True siva@gmail.com 2020-05-21
+104 sachin 3900.00 10 True  2021-12-12
+107 rohith 3700.00 10 True rohith@gmail.com 2022-08-23
+
+>>> for rec in Employee.objects.all().filter(dno=10,sal=4000):
+        print(rec)
+
+101 siva 4000.00 10 True siva@gmail.com 2020-05-21
+
+>>> for rec in Employee.objects.all().filter(dno=10,dno=30):
+        print(rec)
+  
+SyntaxError: keyword argument repeated: dno
+
+
+Model Field Lookup's:
+----------------------
+the Model Field Lookup's are used to indepth filter operation on that particular field.
+
+	syntax
+	-------
+	ModelFieldName__lookupname=value
+ex:
+---
+>>> for rec in Employee.objects.all():
+        print(rec)
+
+101 siva 4000.00 10 True siva@gmail.com 2020-05-21
+102 rama 3000.00 20 False  None
+103 krishna 3500.00 30 False krishna@gmail.com None
+104 sachin 3900.00 10 True  2021-12-12
+105 virat 4500.00 20 True virat@gmail.com 2021-06-12
+106 dhoni 3300.00 30 False  None
+107 rohith 3700.00 10 True rohith@gmail.com 2022-08-23
+
+
+>>> for rec in Employee.objects.all().filter(name__startswith='s'):
+        print(rec)
+
+101 siva 4000.00 10 True siva@gmail.com 2020-05-21
+104 sachin 3900.00 10 True  2021-12-12
+
+
+>>> for rec in Employee.objects.all().filter(name__endswith='a'):
+       print(rec)
+
+101 siva 4000.00 10 True siva@gmail.com 2020-05-21
+102 rama 3000.00 20 False  None
+103 krishna 3500.00 30 False krishna@gmail.com None
+
+
+>>> for rec in Employee.objects.all().filter(name__startswith='s',dno=10):
+        print(rec)
+
+101 siva 4000.00 10 True siva@gmail.com 2020-05-21
+104 sachin 3900.00 10 True  2021-12-12
+
+>>> for rec in Employee.objects.all().filter(name__endswith='a',dno=10):
+       print(rec)
+
+101 siva 4000.00 10 True siva@gmail.com 2020-05-21
+
+>>> for rec in Employee.objects.all().filter(name__contains='h'):
+        print(rec)
+
+103 krishna 3500.00 30 False krishna@gmail.com None
+104 sachin 3900.00 10 True  2021-12-12
+106 dhoni 3300.00 30 False  None
+107 rohith 3700.00 10 True rohith@gmail.com 2022-08-23
+
+
+>>> for rec in Employee.objects.all().filter(name__contains='H'):
+        print(rec)
+
+103 krishna 3500.00 30 False krishna@gmail.com None
+104 sachin 3900.00 10 True  2021-12-12
+106 dhoni 3300.00 30 False  None
+107 rohith 3700.00 10 True rohith@gmail.com 2022-08-23
+
+>>> for rec in Employee.objects.all().filter(name__icontains='H'):
+        print(rec)
+
+103 krishna 3500.00 30 False krishna@gmail.com None
+104 sachin 3900.00 10 True  2021-12-12
+106 dhoni 3300.00 30 False  None
+107 rohith 3700.00 10 True rohith@gmail.com 2022-08-23
+
+
+>>> for rec in Employee.objects.all().filter(sal__gt=3500):
+       print(rec)
+
+101 siva 4000.00 10 True siva@gmail.com 2020-05-21
+104 sachin 3900.00 10 True  2021-12-12
+105 virat 4500.00 20 True virat@gmail.com 2021-06-12
+107 rohith 3700.00 10 True rohith@gmail.com 2022-08-23
+
+>>> for rec in Employee.objects.all().filter(sal__gte=3500):
+        print(rec)
+
+101 siva 4000.00 10 True siva@gmail.com 2020-05-21
+103 krishna 3500.00 30 False krishna@gmail.com None
+104 sachin 3900.00 10 True  2021-12-12
+105 virat 4500.00 20 True virat@gmail.com 2021-06-12
+107 rohith 3700.00 10 True rohith@gmail.com 2022-08-23
+
+>>> for rec in Employee.objects.all().filter(sal__lt=3500):
+       print(rec)
+
+102 rama 3000.00 20 False  None
+106 dhoni 3300.00 30 False  None
+
+>>> for rec in Employee.objects.all().filter(sal__lte=3500):
+       print(rec)
+
+102 rama 3000.00 20 False  None
+103 krishna 3500.00 30 False krishna@gmail.com None
+106 dhoni 3300.00 30 False  None
+

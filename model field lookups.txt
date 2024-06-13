@@ -1,0 +1,165 @@
+Model Field Lookup's:
+----------------------
+the Model Field Lookup's are used to indepth filter operation on that particular field.
+
+	syntax
+	-------
+	ModelFieldName__lookupname=value
+
+
+Keyword		Description
+-------         -------------
+contains	Contains the phrase
+icontains	Same as contains, but case-insensitive
+date		Matches a date
+day		Matches a date (day of month, 1-31) (for dates)
+endswith	Ends with
+iendswith	Same as endswidth, but case-insensitive
+exact		An exact match
+iexact		Same as exact, but case-insensitive
+in		Matches one of the values
+isnull		Matches NULL values
+gt		Greater than
+gte		Greater than, or equal to
+hour		Matches an hour (for datetimes)
+lt		Less than
+lte		Less than, or equal to
+minute		Matches a minute (for datetimes)
+month		Matches a month (for dates)
+quarter		Matches a quarter of the year (1-4) (for dates)
+range		Match between
+regex		Matches a regular expression
+iregex		Same as regex, but case-insensitive
+second		Matches a second (for datetimes)
+startswith	Starts with
+istartswith	Same as startswith, but case-insensitive
+time		Matches a time (for datetimes)
+week		Matches a week number (1-53) (for dates)
+week_day	Matches a day of week (1-7) 1 is Sunday
+iso_week_day	Matches a ISO 8601 day of week (1-7) 1 is Monday
+year		Matches a year (for dates)
+iso_year	Matches an ISO 8601 year (for dates)
+
+
+ex:
+----
+>>> for rec in Employe.objects.all():
+        print(rec)
+
+101 siva 3000.00 10 True siva@gmail.com 2020-05-11
+102 rama 4000.00 10 False  None
+103 krishna 3500.00 20 True krishna@gmail.com 2021-11-05
+104 sachin 4200.00 30 False  None
+105 virat 3900.00 10 True virat@gmail.com 2020-11-21
+106 dhoni 3200.00 30 False  None
+107 rohith 4500.00 20 True rohith@gmail.com 2022-03-15
+
+>>> for rec in Employe.objects.all().filter(ename__startswith='s'):
+        print(rec)
+
+101 siva 3000.00 10 True siva@gmail.com 2020-05-11
+104 sachin 4200.00 30 False  None
+
+>>> for rec in Employe.objects.all().filter(ename__endswith='a'):
+        print(rec)
+
+101 siva 3000.00 10 True siva@gmail.com 2020-05-11
+102 rama 4000.00 10 False  None
+103 krishna 3500.00 20 True krishna@gmail.com 2021-11-05
+
+>>> for rec in Employe.objects.all().filter(dno=10,ename__endswith='a'):
+        print(rec)
+
+101 siva 3000.00 10 True siva@gmail.com 2020-05-11
+102 rama 4000.00 10 False  None
+
+>>> for rec in Employe.objects.all().filter(ename__contains='h'):
+        print(rec)
+
+103 krishna 3500.00 20 True krishna@gmail.com 2021-11-05
+104 sachin 4200.00 30 False  None
+106 dhoni 3200.00 30 False  None
+107 rohith 4500.00 20 True rohith@gmail.com 2022-03-15
+
+
+>>> for rec in Employe.objects.all().filter(ename__contains='H'):
+        print(rec)
+
+103 krishna 3500.00 20 True krishna@gmail.com 2021-11-05
+104 sachin 4200.00 30 False  None
+106 dhoni 3200.00 30 False  None
+107 rohith 4500.00 20 True rohith@gmail.com 2022-03-15
+
+>>> for rec in Employe.objects.all().filter(ename__icontains='H'):
+       print(rec)
+
+103 krishna 3500.00 20 True krishna@gmail.com 2021-11-05
+104 sachin 4200.00 30 False  None
+106 dhoni 3200.00 30 False  None
+107 rohith 4500.00 20 True rohith@gmail.com 2022-03-15
+
+>>> for rec in Employe.objects.all().filter(esal__gt=3500):
+        print(rec)
+
+102 rama 4000.00 10 False  None
+104 sachin 4200.00 30 False  None
+105 virat 3900.00 10 True virat@gmail.com 2020-11-21
+107 rohith 4500.00 20 True rohith@gmail.com 2022-03-15
+
+
+>>> for rec in Employe.objects.all().filter(esal__gte=3500):
+        print(rec)
+
+102 rama 4000.00 10 False  None
+103 krishna 3500.00 20 True krishna@gmail.com 2021-11-05
+104 sachin 4200.00 30 False  None
+105 virat 3900.00 10 True virat@gmail.com 2020-11-21
+107 rohith 4500.00 20 True rohith@gmail.com 2022-03-15
+
+>>> for rec in Employe.objects.all().filter(esal__lt=3500):
+        print(rec)
+
+101 siva 3000.00 10 True siva@gmail.com 2020-05-11
+106 dhoni 3200.00 30 False  None
+
+
+>>> for rec in Employe.objects.all().filter(esal__lte=3500):
+        print(rec)
+
+101 siva 3000.00 10 True siva@gmail.com 2020-05-11
+103 krishna 3500.00 20 True krishna@gmail.com 2021-11-05
+106 dhoni 3200.00 30 False  None
+
+
+>>> for rec in Employe.objects.all().filter(dno__in=[10,20]):
+        print(rec)
+
+101 siva 3000.00 10 True siva@gmail.com 2020-05-11
+102 rama 4000.00 10 False  None
+103 krishna 3500.00 20 True krishna@gmail.com 2021-11-05
+105 virat 3900.00 10 True virat@gmail.com 2020-11-21
+107 rohith 4500.00 20 True rohith@gmail.com 2022-03-15
+
+
+>>> for rec in Employe.objects.all().filter(esal__range=(3500,4000)):
+        print(rec)
+
+102 rama 4000.00 10 False  None
+103 krishna 3500.00 20 True krishna@gmail.com 2021-11-05
+105 virat 3900.00 10 True virat@gmail.com 2020-11-21
+
+>>> for rec in Employe.objects.all().filter(doj__year=2020):
+        print(rec)
+
+101 siva 3000.00 10 True siva@gmail.com 2020-05-11
+105 virat 3900.00 10 True virat@gmail.com 2020-11-21
+
+>>> for rec in Employe.objects.all().filter(doj__year=2020,doj__month=5):
+        print(rec)
+
+101 siva 3000.00 10 True siva@gmail.com 2020-05-11
+
+>>> for rec in Employe.objects.all().filter(doj__week_day=6):
+        print(rec)
+
+103 krishna 3500.00 20 True krishna@gmail.com 2021-11-05

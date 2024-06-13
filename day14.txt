@@ -1,0 +1,695 @@
+note:
+-----
+if we want to perform the logical operations like logical and ,logical or,logical not,in that case we are importing 'Q' class from models module.
+
+ex:
+---
+(sivavenv) D:\siva\django5pm@april2024\proj16>python manage.py shell
+Python 3.12.3 
+
+>>> from app16.models import Employee
+>>> from django.db.models import Q
+>>> records=Employee.objects.all()
+>>> for rec in records:
+        print(rec)
+
+101 siva 4000.00 10 True siva@gmail.com 2020-05-21
+102 rama 3000.00 20 False  None
+103 krishna 3500.00 30 False krishna@gmail.com None
+104 sachin 3900.00 10 True  2021-12-12
+105 virat 4500.00 20 True virat@gmail.com 2021-06-12
+106 dhoni 3300.00 30 False  None
+107 rohith 3700.00 10 True rohith@gmail.com 2022-08-23
+
+>>> for rec in records.filter(Q(dno=10) & Q(name__startswith='s')):
+        print(rec)
+
+101 siva 4000.00 10 True siva@gmail.com 2020-05-21
+104 sachin 3900.00 10 True  2021-12-12
+
+>>> for rec in records.filter(Q(dno=10) | Q(name__startswith='s')):
+        print(rec)
+
+101 siva 4000.00 10 True siva@gmail.com 2020-05-21
+104 sachin 3900.00 10 True  2021-12-12
+107 rohith 3700.00 10 True rohith@gmail.com 2022-08-23
+
+>>> for rec in records.filter(~Q(dno=10)):
+        print(rec)
+
+102 rama 3000.00 20 False  None
+103 krishna 3500.00 30 False krishna@gmail.com None
+105 virat 4500.00 20 True virat@gmail.com 2021-06-12
+106 dhoni 3300.00 30 False  None
+
+
+how to update the objects?
+--------------------------
+if we want to update the objects,in that case we are using update() of objects manager.
+
+the update() to return the output as no.of records/objects are updated.
+
+ex1:
+---
+	before update
+	------------
+>>> for rec in Employee.objects.all():
+       print(rec)
+
+101 siva 4000.00 10 True siva@gmail.com 2020-05-21
+102 rama 3000.00 20 False  None
+103 krishna 3500.00 30 False krishna@gmail.com None
+104 sachin 3900.00 10 True  2021-12-12
+105 virat 4500.00 20 True virat@gmail.com 2021-06-12
+106 dhoni 3300.00 30 False  None
+107 rohith 3700.00 10 True rohith@gmail.com 2022-08-23
+
+
+>>> Employee.objects.filter(Q(dno=10) & Q(name__startswith='s')).update(sal=9000)
+2
+
+	after update
+	-------------
+>>> for rec in Employee.objects.all():
+        print(rec)
+
+101 siva 9000.00 10 True siva@gmail.com 2020-05-21
+102 rama 3000.00 20 False  None
+103 krishna 3500.00 30 False krishna@gmail.com None
+104 sachin 9000.00 10 True  2021-12-12
+105 virat 4500.00 20 True virat@gmail.com 2021-06-12
+106 dhoni 3300.00 30 False  None
+107 rohith 3700.00 10 True rohith@gmail.com 2022-08-23
+
+
+ex2:
+----
+	before update
+	-------------
+>>> for rec in Employee.objects.all():
+        print(rec)
+
+101 siva 9000.00 10 True siva@gmail.com 2020-05-21
+102 rama 3000.00 20 False  None
+103 krishna 3500.00 30 False krishna@gmail.com None
+104 sachin 9000.00 10 True  2021-12-12
+105 virat 4500.00 20 True virat@gmail.com 2021-06-12
+106 dhoni 3300.00 30 False  None
+107 rohith 3700.00 10 True rohith@gmail.com 2022-08-23
+
+>>> Employee.objects.update(sal=6500)
+7
+
+	after update
+	------------
+>>> for rec in Employee.objects.all():
+        print(rec)
+
+101 siva 6500.00 10 True siva@gmail.com 2020-05-21
+102 rama 6500.00 20 False  None
+103 krishna 6500.00 30 False krishna@gmail.com None
+104 sachin 6500.00 10 True  2021-12-12
+105 virat 6500.00 20 True virat@gmail.com 2021-06-12
+106 dhoni 6500.00 30 False  None
+107 rohith 6500.00 10 True rohith@gmail.com 2022-08-23
+
+
+how to delete the objects?
+---------------------------
+if we want to delete the objects,in that case we are using delete() of objects manager.
+
+the delete() to return the output as a no.of records are deleted.
+
+ex1:
+----
+	before delete
+	-------------
+>>> for rec in Employee.objects.all():
+       print(rec)
+
+101 siva 6500.00 10 True siva@gmail.com 2020-05-21
+102 rama 6500.00 20 False  None
+103 krishna 6500.00 30 False krishna@gmail.com None
+104 sachin 6500.00 10 True  2021-12-12
+105 virat 6500.00 20 True virat@gmail.com 2021-06-12
+106 dhoni 6500.00 30 False  None
+107 rohith 6500.00 10 True rohith@gmail.com 2022-08-23
+
+>>> Employee.objects.filter(Q(dno=10) | Q(name__startswith='s')).delete()
+(3, {'app16.Employee': 3})
+
+	after delete
+	------------
+>>> for rec in Employee.objects.all():
+        print(rec)
+
+102 rama 6500.00 20 False  None
+103 krishna 6500.00 30 False krishna@gmail.com None
+105 virat 6500.00 20 True virat@gmail.com 2021-06-12
+106 dhoni 6500.00 30 False  None
+
+
+ex2:
+----
+>>> Employee.objects.all().delete()
+(4, {'app16.Employee': 4})
+
+>>> for rec in Employee.objects.all():
+        print(rec)
+
+no records
+
+
+ex:
+---
+create a django project to perform the CURD operations?
+
+step1:
+------
+to create a django project
+
+(sivavenv) D:\siva\django5pm@april2024>django-admin startproject proj17
+
+step2:
+-----
+goto project location and to create an application in our project
+
+(sivavenv) D:\siva\django5pm@april2024>cd proj17
+
+(sivavenv) D:\siva\django5pm@april2024\proj17>python manage.py startapp app17
+
+step3:
+-----
+to install our application in the settings.py file of the project.
+
+	settings.py
+	-----------
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'app17'
+]
+
+step4:
+-----
+to install mysql database server related django database api
+
+(sivavenv) D:\siva\django5pm@april2024\proj17>pip install mysqlclient
+
+step5:
+------
+to create a database in mysql server
+
+mysql> create database my5pmdjproj17;
+Query OK, 1 row affected (0.10 sec)
+
+
+step6:
+-----
+to configure the database settings in the settings.py file of the project
+
+	settings.py
+	------------
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'my5pmdjproj17',
+        'USER': 'root',
+        'PASSWORD': 'root',
+        'HOST': 'localhost',
+        'PORT': '3306'
+    }
+}
+
+step7:
+-----
+to define a models in the models.py file of the application
+
+	models.py
+	---------
+from django.db import models
+
+# Create your models here.
+class Employee(models.Model):
+    id=models.IntegerField(primary_key=True)
+    name=models.CharField(max_length=30)
+    sal=models.DecimalField(max_digits=6,decimal_places=2)
+    dno=models.IntegerField()
+
+step8:
+-----
+to check the errors in our models
+
+(sivavenv) D:\siva\django5pm@april2024\proj17>python manage.py check
+System check identified no issues (0 silenced).
+
+step9:
+-----
+to create a model i.e., to generate the sql query for model class
+
+(sivavenv) D:\siva\django5pm@april2024\proj17>python manage.py makemigrations
+Migrations for 'app17':
+  app17\migrations\0001_initial.py
+    - Create model Employee
+
+step10:
+------
+to create a tables i.e., to execute the sql query
+
+(sivavenv) D:\siva\django5pm@april2024\proj17>python manage.py migrate
+
+step11:
+-----
+to create a templates folder and to set the path for templates in the settings.py file of the project.
+
+	settings.py
+	------------
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [BASE_DIR/'templates'],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+step12:
+------
+to create a views in the views.py file of the application.
+
+	views.py
+	--------
+from django.shortcuts import render
+from app17.models import Employee
+
+# Create your views here.
+def input_data(request):
+    return render(request,'input_form.html')
+
+def insertion(request):
+    eid=int(request.GET['id'])
+    ename=request.GET['name']
+    esal=float(request.GET['salary'])
+    edno=int(request.GET['dno'])
+    e=Employee(id=eid,name=ename,sal=esal,dno=edno)
+    e.save()
+    return render(request,'insertion_result.html')
+
+def retreival(request):
+    data=Employee.objects.all()
+    context={'records':data}
+    return render(request,'retreival_result.html',context)
+
+def edit(request,id):
+    employee=Employee.objects.get(id=id)
+    return render(request,'edit.html',{'employee':employee})
+
+def update(request,id):
+    eid = int(request.GET['id'])
+    ename = request.GET['name']
+    esal = float(request.GET['salary'])
+    edno = int(request.GET['dno'])
+    e = Employee(id=eid, name=ename, sal=esal, dno=edno)
+    e.save()
+    return render(request,'update.html')
+
+def delete(request,id):
+    employee=Employee.objects.get(id=id)
+    employee.delete()
+    return render(request,'delete.html')
+
+	input_form.html
+	---------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+   <fieldset>
+       <legend>Employee Form</legend>
+       <form action="insert">
+           Enter Employee Id:
+           <input type="text" name="id"><br><br>
+           Enter Employee Name:
+           <input type="text" name="name"><br><br>
+           Enter Employee Salaray:
+           <input type="text" name="salary"><br><br>
+           Enter Employee Department Number:
+           <input type="text" name="dno"><br><br>
+           <input type="submit" value="submit">
+       </form>
+   </fieldset>
+</body>
+</html>
+
+	insertion_result.html
+	----------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>Inserted Successfully</h1>
+    <br><br>
+    <a href="/in">Click here to insert another employee data</a>
+    <br><br>
+    <a href="/retreival">Click here to display the Employee data</a>
+</body>
+</html>
+
+	retreival_result.html
+	----------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <table border="2px" width="50%">
+        <caption>Employee Data</caption>
+        <tr>
+            <th>Eid</th>
+            <th>Ename</th>
+            <th>Esal</th>
+            <th>Dno</th>
+            <th>Actions</th>
+        </tr>
+        {% for rec in records %}
+             <tr>
+                 <td>{{ rec.id }}</td>
+                 <td>{{ rec.name }}</td>
+                 <td>{{ rec.sal }}</td>
+                 <td>{{ rec.dno }}</td>
+                 <td>
+                     <a href="/edit/{{rec.id}}">Update</span></a> &emsp;
+                     <a href="/delete/{{rec.id}}">Delete</a>
+                 </td>
+             </tr>
+        {% endfor %}
+    </table>
+<br>
+<a href="/in">Click here to insert another employee data</a>
+</body>
+</html>
+
+	edit.html
+	---------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <fieldset>
+        <legend>edit form</legend>
+        <form action="/update/{{ employee.id }}">
+           Enter Employee Id:
+           <input type="text" name="id" value="{{ employee.id }}"><br><br>
+           Enter Employee Name:
+           <input type="text" name="name" value="{{ employee.name }}"><br><br>
+           Enter Employee Salaray:
+           <input type="text" name="salary" value="{{ employee.sal }}"><br><br>
+           Enter Employee Department Number:
+           <input type="text" name="dno" value="{{ employee.dno }}"><br><br>
+           <input type="submit" value="update">
+       </form>
+    </fieldset>
+</body>
+</html>
+
+	update.html
+	-----------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>updated successfully</h1>
+    <br><br>
+    <a href="/in">Click here to insert another employee data</a>
+    <br><br>
+    <a href="/retreival">Click here to display the Employee data</a>
+</body>
+</html>
+
+	delete.html
+	-----------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>deleted successfully</h1>
+    <br><br>
+    <a href="/in">Click here to insert another employee data</a>
+    <br><br>
+    <a href="/retreival">Click here to display the Employee data</a>
+</body>
+</html>
+
+step13:
+-------
+to configure the url patterns for our views in the urls.py file of the project.
+
+	urls.py
+	-------
+from django.contrib import admin
+from django.urls import path,re_path
+from app17 import views
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('in/',views.input_data),
+    re_path('insert',views.insertion),
+    path('retreival/',views.retreival),
+    path('edit/<int:id>',views.edit),
+    path('update/<int:id>',views.update),
+    path('delete/<int:id>',views.delete)
+
+]
+
+step14:
+-----
+to start the server
+
+	python manage.py runserver
+
+step15:
+------
+to send the request to the server
+
+	http://127.0.0.1/in
+	http://127.0.0.1/in/insert
+	http://127.0.0.1/retreival
+	http://127.0.0.1/edit/<int:id>
+	http://127.0.0.1/update/<int:id>
+	http://127.0.0.1/delete/<int:id>
+
+
+structure:
+---------
+	proj17
+	  |--->app17
+	  |      |--->models.py
+	  |      |--->views.py
+	  |--->proj17
+	  |      |--->settings.py
+	  |      |--->urls.py
+	  |--->templates
+	  |      |--->input_form.html
+	  |      |--->insertion_result.html
+	  |      |--->retreival_result.html
+	  |      |--->edit.html
+	  |      |--->update.html
+	  |      |--->delete.html
+	  |--->manage.py
+	
+
+
+Model Field Lookup's:
+----------------------
+the Model Field Lookup's are used to indepth filter operation on that particular field.
+
+	syntax
+	-------
+	ModelFieldName__lookupname=value
+
+
+Keyword		Description
+-------         -------------
+contains	Contains the phrase
+icontains	Same as contains, but case-insensitive
+date		Matches a date
+day		Matches a date (day of month, 1-31) (for dates)
+endswith	Ends with
+iendswith	Same as endswidth, but case-insensitive
+exact		An exact match
+iexact		Same as exact, but case-insensitive
+in		Matches one of the values
+isnull		Matches NULL values
+gt		Greater than
+gte		Greater than, or equal to
+hour		Matches an hour (for datetimes)
+lt		Less than
+lte		Less than, or equal to
+minute		Matches a minute (for datetimes)
+month		Matches a month (for dates)
+quarter		Matches a quarter of the year (1-4) (for dates)
+range		Match between
+regex		Matches a regular expression
+iregex		Same as regex, but case-insensitive
+second		Matches a second (for datetimes)
+startswith	Starts with
+istartswith	Same as startswith, but case-insensitive
+time		Matches a time (for datetimes)
+week		Matches a week number (1-53) (for dates)
+week_day	Matches a day of week (1-7) 1 is Sunday
+iso_week_day	Matches a ISO 8601 day of week (1-7) 1 is Monday
+year		Matches a year (for dates)
+iso_year	Matches an ISO 8601 year (for dates)
+
+
+ex:
+----
+>>> for rec in Employe.objects.all():
+        print(rec)
+
+101 siva 3000.00 10 True siva@gmail.com 2020-05-11
+102 rama 4000.00 10 False  None
+103 krishna 3500.00 20 True krishna@gmail.com 2021-11-05
+104 sachin 4200.00 30 False  None
+105 virat 3900.00 10 True virat@gmail.com 2020-11-21
+106 dhoni 3200.00 30 False  None
+107 rohith 4500.00 20 True rohith@gmail.com 2022-03-15
+
+>>> for rec in Employe.objects.all().filter(ename__startswith='s'):
+        print(rec)
+
+101 siva 3000.00 10 True siva@gmail.com 2020-05-11
+104 sachin 4200.00 30 False  None
+
+>>> for rec in Employe.objects.all().filter(ename__endswith='a'):
+        print(rec)
+
+101 siva 3000.00 10 True siva@gmail.com 2020-05-11
+102 rama 4000.00 10 False  None
+103 krishna 3500.00 20 True krishna@gmail.com 2021-11-05
+
+>>> for rec in Employe.objects.all().filter(dno=10,ename__endswith='a'):
+        print(rec)
+
+101 siva 3000.00 10 True siva@gmail.com 2020-05-11
+102 rama 4000.00 10 False  None
+
+>>> for rec in Employe.objects.all().filter(ename__contains='h'):
+        print(rec)
+
+103 krishna 3500.00 20 True krishna@gmail.com 2021-11-05
+104 sachin 4200.00 30 False  None
+106 dhoni 3200.00 30 False  None
+107 rohith 4500.00 20 True rohith@gmail.com 2022-03-15
+
+
+>>> for rec in Employe.objects.all().filter(ename__contains='H'):
+        print(rec)
+
+103 krishna 3500.00 20 True krishna@gmail.com 2021-11-05
+104 sachin 4200.00 30 False  None
+106 dhoni 3200.00 30 False  None
+107 rohith 4500.00 20 True rohith@gmail.com 2022-03-15
+
+>>> for rec in Employe.objects.all().filter(ename__icontains='H'):
+       print(rec)
+
+103 krishna 3500.00 20 True krishna@gmail.com 2021-11-05
+104 sachin 4200.00 30 False  None
+106 dhoni 3200.00 30 False  None
+107 rohith 4500.00 20 True rohith@gmail.com 2022-03-15
+
+>>> for rec in Employe.objects.all().filter(esal__gt=3500):
+        print(rec)
+
+102 rama 4000.00 10 False  None
+104 sachin 4200.00 30 False  None
+105 virat 3900.00 10 True virat@gmail.com 2020-11-21
+107 rohith 4500.00 20 True rohith@gmail.com 2022-03-15
+
+
+>>> for rec in Employe.objects.all().filter(esal__gte=3500):
+        print(rec)
+
+102 rama 4000.00 10 False  None
+103 krishna 3500.00 20 True krishna@gmail.com 2021-11-05
+104 sachin 4200.00 30 False  None
+105 virat 3900.00 10 True virat@gmail.com 2020-11-21
+107 rohith 4500.00 20 True rohith@gmail.com 2022-03-15
+
+>>> for rec in Employe.objects.all().filter(esal__lt=3500):
+        print(rec)
+
+101 siva 3000.00 10 True siva@gmail.com 2020-05-11
+106 dhoni 3200.00 30 False  None
+
+
+>>> for rec in Employe.objects.all().filter(esal__lte=3500):
+        print(rec)
+
+101 siva 3000.00 10 True siva@gmail.com 2020-05-11
+103 krishna 3500.00 20 True krishna@gmail.com 2021-11-05
+106 dhoni 3200.00 30 False  None
+
+
+>>> for rec in Employe.objects.all().filter(dno__in=[10,20]):
+        print(rec)
+
+101 siva 3000.00 10 True siva@gmail.com 2020-05-11
+102 rama 4000.00 10 False  None
+103 krishna 3500.00 20 True krishna@gmail.com 2021-11-05
+105 virat 3900.00 10 True virat@gmail.com 2020-11-21
+107 rohith 4500.00 20 True rohith@gmail.com 2022-03-15
+
+
+>>> for rec in Employe.objects.all().filter(esal__range=(3500,4000)):
+        print(rec)
+
+102 rama 4000.00 10 False  None
+103 krishna 3500.00 20 True krishna@gmail.com 2021-11-05
+105 virat 3900.00 10 True virat@gmail.com 2020-11-21
+
+>>> for rec in Employe.objects.all().filter(doj__year=2020):
+        print(rec)
+
+101 siva 3000.00 10 True siva@gmail.com 2020-05-11
+105 virat 3900.00 10 True virat@gmail.com 2020-11-21
+
+>>> for rec in Employe.objects.all().filter(doj__year=2020,doj__month=5):
+        print(rec)
+
+101 siva 3000.00 10 True siva@gmail.com 2020-05-11
+
+>>> for rec in Employe.objects.all().filter(doj__week_day=6):
+        print(rec)
+
+103 krishna 3500.00 20 True krishna@gmail.com 2021-11-05
+

@@ -1,0 +1,288 @@
+how to create a django project?
+--------------------------------
+we can create a django project by using following command,
+
+	django-admin startproject projectname
+
+ex:
+---
+D:\siva\django5pm@april2024>sivavenv\scripts\activate
+
+(sivavenv) D:\siva\django5pm@april2024>django-admin startproject demoproj
+
+	demoproj
+	   |--->demoproj
+	   |       |--->__init__.py
+	   |       |--->settings.py
+	   |       |--->asgi.py
+	   |       |--->wsgi.py
+	   |       |--->urls.py
+           |--->manage.py
+
+manage.py
+-----------
+The manage.py file provides a command-line utility for a Django project. 
+we will use this command-line utility to perform various operations related to debugging, running, and deploying a Django web application.
+
+For example, to run a Django application in the development server we will use the following command:
+
+	python manage.py runserver
+
+For example, to create an application in the project we will use the following command:
+
+	python manage.py startapp appname
+
+we can run manage.py without any argument to see the available subcommands:
+
+	python manage.py
+
+ex:
+---
+(sivavenv) D:\siva\django5pm@april2024>cd demoproj
+
+(sivavenv) D:\siva\django5pm@april2024\demoproj>python manage.py
+
+
+__init__.py
+------------
+It is an empty Python file. The __init__.py file tells the Python interpreter that particular directory is a Python package.
+
+asgi.py & wsgi.py
+-----------------
+asgi stands for Asynchronous Server Gateway Interface and wsgi stands for Web Server Gateway Interface.
+
+After our application development process is completed,we will move to production and hosting. For hosting we will use asgi or wsgi compatible servers. According to the type of server we use, we have to import middleware accordingly.
+
+asgi.py enables ASGI compatible servers and wsgi.py enables WSGI compatible servers to serve our Django web app.
+
+settings.py
+-----------
+This is the main configuration file for a Django project.here we will configure all the apps and middleware for your project.
+
+This file also handles the database settings,template settings,
+static files settings,media files settings..... 
+
+By default Django uses sqlite3. But if we use a different database, which we will most probably do, we will configure it in settings.py.
+
+urls.py
+--------
+URLs are different endpoints of our website. 
+
+the urls.py contains the URL configurations for our website.
+
+By default, urls.py comes with the URL pattern for the admin panel. we will create other endpoints for our web app in this file.
+
+how to create an application in our project?
+---------------------------------------------
+if we want to create an application in our project,in that case we are using following command
+
+	cd projectname
+	python manage.py startapp appname
+
+ex:
+---
+(sivavenv) D:\siva\django5pm@april2024>cd demoproj
+
+(sivavenv) D:\siva\django5pm@april2024\demoproj>python manage.py startapp demoapp
+
+	demoproj
+	   |--->demoproj
+	   |--->demoapp
+	   |       |--->migrations
+	   |       |        |--->__init__.py
+	   |       |--->__init__.py
+	   |       |--->admin.py
+	   |       |--->apps.py
+	   |       |--->models.py
+	   |       |--->tests.py
+	   |       |--->views.py
+	   |--->manage.py
+
+
+__init__.py
+---------
+The __init__.py file in an app is no different than the __init__.py file in a project. This empty Python file,it is telling the interpreter that particular folder is a Python package.
+
+admin.py
+---------
+This file is used to register the models in our app in the Django administration.
+we will use this file to display the models of our app in the admin panel.
+
+apps.py
+-------
+It is a common configuration file for all Django apps.
+we can configure the attributes for our app using this file. However, the default configuration is sufficient for most cases. So, adding app configuration is a rare case.
+
+models.py
+---------
+we can create our models in this file.
+Models define the database structure of our app. 
+
+In models.py file,basically create database tables for our app with proper relationships using Python classes.
+
+models.py is one of the most important files in our app.
+
+Django follows the MVT (Model-View-Template) design architecture. The 'M' represents models. So, models are one of the basic components of a Django app.
+
+views.py
+---------
+views.py is another important file. Views are the 'V' of MVT.
+
+Views provide an interface through which users interact with a Django website.It connects models and templates together.
+
+In this file, we can write the business logics for our app. A view can be either function-based or class-based. we are decided if we want to write our views using functions or classes.
+
+tests.py
+---------
+tests.py is to write test codes/cases for our app.
+It is used to test the overall working of a Django app.
+
+migrations directory/package
+----------------------------
+Once we start making changes in our database, the migrations folder will be populated with the records for all those migrations.
+
+0001_initial.py is created when you first migrate our models. Here we will see the model instances. Then for every change made in the models, a new file will be created in the migrations directory with a proper name.
+
+how to start the server?
+------------------------
+if we want to start the server,in that case we are using following command,
+
+	python manage.py runserver portnumber
+					|
+			it is optional,by default port number is 8000
+
+
+ex:
+---
+(sivavenv) D:\siva\django5pm@april2024\demoproj>python manage.py migrate
+
+(sivavenv) D:\siva\django5pm@april2024\demoproj>python manage.py runserver
+
+
+
+Starting development server at http://127.0.0.1:8000/
+
+how to stop the server?
+-----------------------
+if we want to stop the server through the cmd/terminal,in that case we are using  ctrl+c
+
+how to start the server with explicit port number?
+--------------------------------------------------
+(sivavenv) D:\siva\django5pm@april2024\demoproj>python manage.py runserver 9000
+
+Starting development server at http://127.0.0.1:9000/
+
+how to stop the server through cmd/terminal?
+--------------------------------------------
+	if we want to stop the server through cmd/terminal, in that case we are using following command ctrl+c
+
+
+ex1:
+----
+create a django project with single application and single view,to display the hello world message on the web browser?
+
+step1:
+------
+to create a django project
+
+	activate the our virtual environment: ourvirtualenvname\scripts\activate
+	
+	create a django project: django-admin startproject projectname
+
+
+D:\siva\django5pm@april2024>sivavenv\scripts\activate
+
+(sivavenv) D:\siva\django5pm@april2024>django-admin startproject proj1
+
+step2:
+------
+goto project location and to create an application in our project location.
+
+	cd projectname
+
+	python manage.py startapp appname
+
+(sivavenv) D:\siva\django5pm@april2024>cd proj1
+
+(sivavenv) D:\siva\django5pm@april2024\proj1>python manage.py startapp app1
+
+step3:
+-----
+to install our application in the settings.py file of the project.
+
+	proj1/settings.py
+	-----------
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'app1'
+]
+
+step4:
+-----
+to create a views in the views.py file of the application.
+
+	app1/views.py
+	-------------
+#from django.shortcuts import render
+from django.http import HttpResponse
+# Create your views here.
+
+def welcome(request):
+    return HttpResponse("hello world")
+    
+step5:
+-----
+to configure the url patterns for our views in the urls.py file of the project.
+
+	proj1/urls.py
+	-------------
+from django.contrib import admin
+from django.urls import path
+from app1 import views
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('wel/',views.welcome)
+]
+
+step6:
+-----
+to apply the migrations
+
+	python manage.py migrate
+
+(sivavenv) D:\siva\django5pm@april2024\proj1>python manage.py migrate
+
+step7:
+-----
+to start/run the server
+
+	python manage.py runserver
+
+(sivavenv) D:\siva\django5pm@april2024\proj1>python manage.py runserver
+
+step8:
+------
+to send the request to the server
+
+	http://127.0.0.1:8000/wel
+
+
+structure:
+---------
+	proj1
+	  |--->app1
+	  |     |--->views.py
+	  |--->proj1
+	  |     |--->settings.py
+	  |     |--->urls.py
+          |--->manage.py
+
+
+
+
